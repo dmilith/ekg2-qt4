@@ -5,8 +5,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>729</width>
-    <height>510</height>
+    <width>833</width>
+    <height>568</height>
    </rect>
   </property>
   <property name="windowTitle" >
@@ -17,18 +17,24 @@
     <rect>
      <x>0</x>
      <y>25</y>
-     <width>729</width>
-     <height>463</height>
+     <width>833</width>
+     <height>521</height>
     </rect>
    </property>
    <widget class="QLineEdit" name="lineEdit" >
     <property name="geometry" >
      <rect>
       <x>0</x>
-      <y>426</y>
-      <width>731</width>
+      <y>490</y>
+      <width>631</width>
       <height>41</height>
      </rect>
+    </property>
+    <property name="focusPolicy" >
+     <enum>Qt::WheelFocus</enum>
+    </property>
+    <property name="locale" >
+     <locale country="Poland" language="Polish" />
     </property>
    </widget>
    <widget class="QTextBrowser" name="textBrowser" >
@@ -36,9 +42,37 @@
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>731</width>
-      <height>421</height>
+      <width>631</width>
+      <height>481</height>
      </rect>
+    </property>
+   </widget>
+   <widget class="QTreeWidget" name="treeWidget" >
+    <property name="geometry" >
+     <rect>
+      <x>640</x>
+      <y>0</y>
+      <width>191</width>
+      <height>521</height>
+     </rect>
+    </property>
+    <property name="sizePolicy" >
+     <sizepolicy vsizetype="Maximum" hsizetype="Maximum" >
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
+    </property>
+    <property name="acceptDrops" >
+     <bool>true</bool>
+    </property>
+    <property name="locale" >
+     <locale country="Poland" language="Polish" />
+    </property>
+    <property name="selectionBehavior" >
+     <enum>QAbstractItemView::SelectItems</enum>
+    </property>
+    <property name="animated" >
+     <bool>true</bool>
     </property>
    </widget>
   </widget>
@@ -47,7 +81,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>729</width>
+     <width>833</width>
      <height>25</height>
     </rect>
    </property>
@@ -73,8 +107,8 @@
    <property name="geometry" >
     <rect>
      <x>0</x>
-     <y>488</y>
-     <width>729</width>
+     <y>546</y>
+     <width>833</width>
      <height>22</height>
     </rect>
    </property>

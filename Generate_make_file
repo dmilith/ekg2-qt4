@@ -1,5 +1,0 @@
-#!/bin/bash
-qmake qt4-plugin.pro
-make
-sudo mv -v libqt.so /usr/local/lib/ekg2/plugins/qt.so
-

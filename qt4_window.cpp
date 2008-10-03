@@ -1,7 +1,7 @@
 /*
  * author: Daniel (dmilith) Dettlaff
  * email: dmilith at drakor.eu
- * released under GPL2 license
+ * released under GPLv2 license
  * © 2oo8
  */
 
@@ -21,24 +21,19 @@ Qt4Plugin::Qt4Plugin( const QString& title ) {
 	show();
 }
 
-extern "C" {
-
-	extern void ekg_exit();
-
-	Qt4Plugin::~Qt4Plugin() {
-		ekg_exit();
-	}
-	
+Qt4Plugin::~Qt4Plugin() {
 }
 
 void
 Qt4Plugin::init_actions() {
-	QObject::connect( action_exit, SIGNAL( activated() ), this, SLOT( quit() ));
+	QObject::connect( action_exit, SIGNAL( activated() ), this, SLOT( close() ));
 }
 
-void
-Qt4Plugin::quit() {
-	this->close();
-	this->~Qt4Plugin();
+bool
+Qt4Plugin::is_alive() {
+	if ( this->isVisible() )
+		return true;
+	else
+		return false;
 }
 

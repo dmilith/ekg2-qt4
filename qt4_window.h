@@ -1,7 +1,7 @@
 /*
  * author: Daniel (dmilith) Dettlaff
  * email: dmilith at drakor.eu
- * released under GPL2 & LGPL license
+ * released under GPL2 license
  * © 2oo8
  */
 
@@ -9,10 +9,12 @@
 #define _QT4_WINDOW_H
 
 
+#include <iostream>
 #include <cstdio>
 #include <csignal>
 #include <cassert>
 
+#include <qt4/QtCore/QProcess>
 #include <qt4/QtCore/QCoreApplication>
 #include <qt4/QtGui/QApplication>
 #include <qt4/QtCore/QLibrary>
@@ -28,6 +30,9 @@
 #include "ui_ekg2_qt4.h"
 
 const std::string MAIN_WINDOW_TITLE = "EKG2";
+// comment this out to get code without verbose debug.
+#define QT_DEBUG
+
 
 /* User Interface namespace is providing main UI inherited from automaticaly generated qt-designer templates */
 namespace Ui {
@@ -42,12 +47,12 @@ namespace Ui {
      
       // init qt4 actions (ui slots and signals)
       void init_actions();
+		bool is_alive();
       
     private:
       
     // qt4 action slots
     public slots:
-	 	void quit();
       
     // qt4 action signals
     signals:

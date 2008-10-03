@@ -1,4 +1,9 @@
-
+/*
+ * author: Daniel (dmilith) Dettlaff
+ * email: dmilith at drakor.eu
+ * released under GPLv2 license
+ * © 2oo8
+ */
 
 #define USINGANANTIQUECOMPILER 1
 
@@ -16,11 +21,12 @@ extern "C" {
 #include "qt4_window.h"
 
 using namespace Ui;
+using namespace std;
 
 int argc;
 char** argv;
-QApplication lib( argc, argv );
-Qt4Plugin *main_obj = NULL;
+QApplication *lib = NULL;
+static Qt4Plugin *main_obj = NULL;
 
 extern "C" {
 
@@ -28,17 +34,18 @@ extern "C" {
 	extern void ekg_loop();
 
 	static QUERY( qt_plugin_loop ) {
-		while ( main_obj ) {
-			printf(".");
-			fflush( stdout );
+		while ( main_obj->is_alive() ) {
+			#ifdef QT_DEBUG
+				cout << "." << flush;
+			#endif	
+			lib->processEvents();
 			ekg_loop();
-			lib.processEvents();
 		}
+		qt_plugin_destroy();
 		return 0;
 	}
 
 	static QUERY( qt_ui_is_initialized ) {
-		if (! main_obj) main_obj = new Qt4Plugin( "Ekg2" );
 		return 0;
 	}
 
@@ -48,14 +55,20 @@ extern "C" {
 
 		query_connect_id( &qt_plugin, UI_IS_INITIALIZED, qt_ui_is_initialized, NULL );
 		query_connect_id( &qt_plugin, UI_LOOP, qt_plugin_loop, NULL );
-
+		
+		lib = new QApplication( argc, argv );
+		main_obj = new Qt4Plugin( "Ekg2" );
 		return 0;
 	}
 
 	int qt_plugin_destroy() {
-		//if (main_obj) delete main_obj;
+		if ( ! main_obj ) delete main_obj;
+		if ( ! lib ) delete lib;
     	plugin_unregister( &qt_plugin );
-		// dead code
+		#ifdef QT_DEBUG
+			cout << "DEBUG: main_obj deleted\nTrying to quit..\n" << flush;
+		#endif
+		ekg_exit();
    	return 0;
 	}
 
