@@ -1,0 +1,90 @@
+<ui version="4.0" >
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>725</width>
+    <height>510</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget" >
+   <property name="geometry" >
+    <rect>
+     <x>0</x>
+     <y>23</y>
+     <width>725</width>
+     <height>465</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QMenuBar" name="menubar" >
+   <property name="geometry" >
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>725</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuEkg2" >
+    <property name="title" >
+     <string>Ekg2</string>
+    </property>
+    <addaction name="actionPo_cz_sesj" />
+    <addaction name="actionRoz_cz_sesj" />
+    <addaction name="actionWyjd_z_programu" />
+   </widget>
+   <widget class="QMenu" name="menuUstawienia" >
+    <property name="title" >
+     <string>Ustawienia</string>
+    </property>
+    <addaction name="actionCore" />
+    <addaction name="actionUstawienia_interfejsu_Qt" />
+   </widget>
+   <addaction name="menuEkg2" />
+   <addaction name="menuUstawienia" />
+  </widget>
+  <widget class="QStatusBar" name="statusbar" >
+   <property name="geometry" >
+    <rect>
+     <x>0</x>
+     <y>488</y>
+     <width>725</width>
+     <height>22</height>
+    </rect>
+   </property>
+  </widget>
+  <action name="actionPo_cz_sesj" >
+   <property name="text" >
+    <string>Połącz sesję</string>
+   </property>
+  </action>
+  <action name="actionRoz_cz_sesj" >
+   <property name="text" >
+    <string>Rozłącz sesję</string>
+   </property>
+  </action>
+  <action name="actionWyjd_z_programu" >
+   <property name="text" >
+    <string>Wyjdź z programu</string>
+   </property>
+  </action>
+  <action name="actionCore" >
+   <property name="text" >
+    <string>Ustawienia główne</string>
+   </property>
+  </action>
+  <action name="actionUstawienia_interfejsu_Qt" >
+   <property name="text" >
+    <string>Ustawienia interfejsu Qt</string>
+   </property>
+  </action>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

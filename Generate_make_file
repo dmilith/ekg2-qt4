@@ -1,0 +1,5 @@
+#!/bin/bash
+qmake qt4-plugin.pro
+make
+mv libqt4.so qt4.so
+
