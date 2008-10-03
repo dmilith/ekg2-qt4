@@ -13,6 +13,7 @@
 #include <csignal>
 #include <cassert>
 
+#include <qt4/QtCore/QCoreApplication>
 #include <qt4/QtGui/QApplication>
 #include <qt4/QtCore/QLibrary>
 #include <qt4/QtCore/QTimer>
@@ -23,10 +24,6 @@
 #include <qt4/QtGui/QMessageBox>
 #include <qt4/QtCore/QQueue>
 #include <qt4/QtGui/QSlider>
-
-#include <string>
-#include <iostream>
-#include <sstream>
 
 #include "ui_ekg2_qt4.h"
 
@@ -50,6 +47,7 @@ namespace Ui {
       
     // qt4 action slots
     public slots:
+	 	void quit();
       
     // qt4 action signals
     signals:

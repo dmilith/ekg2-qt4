@@ -21,12 +21,24 @@ Qt4Plugin::Qt4Plugin( const QString& title ) {
 	show();
 }
 
-Qt4Plugin::~Qt4Plugin() {
-}
+extern "C" {
 
+	extern void ekg_exit();
+
+	Qt4Plugin::~Qt4Plugin() {
+		ekg_exit();
+	}
+	
+}
 
 void
 Qt4Plugin::init_actions() {
+	QObject::connect( action_exit, SIGNAL( activated() ), this, SLOT( quit() ));
 }
 
+void
+Qt4Plugin::quit() {
+	this->close();
+	this->~Qt4Plugin();
+}
 
