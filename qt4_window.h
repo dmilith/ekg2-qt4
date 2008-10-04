@@ -14,18 +14,18 @@
 #include <csignal>
 #include <cassert>
 
-#include <qt4/QtCore/QProcess>
-#include <qt4/QtCore/QCoreApplication>
-#include <qt4/QtGui/QApplication>
-#include <qt4/QtCore/QLibrary>
-#include <qt4/QtCore/QTimer>
-#include <qt4/QtCore/Qt>
-#include <qt4/QtCore/QFile>
-#include <qt4/QtGui/QDialog>
-#include <qt4/QtCore/QTextCodec>
-#include <qt4/QtGui/QMessageBox>
-#include <qt4/QtCore/QQueue>
-#include <qt4/QtGui/QSlider>
+#include <QtCore/QProcess>
+#include <QtCore/QCoreApplication>
+#include <QtGui/QApplication>
+#include <QtCore/QLibrary>
+#include <QtCore/QTimer>
+#include <QtCore/Qt>
+#include <QtCore/QFile>
+#include <QtGui/QDialog>
+#include <QtCore/QTextCodec>
+#include <QtGui/QMessageBox>
+#include <QtCore/QQueue>
+#include <QtGui/QSlider>
 
 #include "ui_ekg2_qt4.h"
 

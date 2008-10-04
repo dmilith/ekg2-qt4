@@ -6,16 +6,38 @@
  */
 
 #define USINGANANTIQUECOMPILER 1
+#define QT_NO_PRINTER // XXX: print()
 
 extern "C" {
 
 	#define new new_ekg
-	#include "../../ekg/debug.h"
-	#include "../../ekg/plugins.h"
-	#include "../../ekg/queries.h"
+	#include "ekg2-config.h"
+	#include <ekg/debug.h>
+	#include <ekg/plugins.h>
+	#include <ekg/queries.h>
+	#include <ekg/sessions.h>
+	#include <ekg/events.h>
+	#include <ekg/configfile.h>
+	#include <ekg/dynstuff.h>
+	#include <ekg/log.h>
+	#include <ekg/metacontacts.h>
+	#include <ekg/msgqueue.h>
+	#include <ekg/protocol.h>
+	#include <ekg/stuff.h>
+	#include <ekg/themes.h>
+	#include <ekg/vars.h>
+	#include <ekg/userlist.h>
+	#include <ekg/scripts.h>
+	#include <ekg/windows.h>
+	#include <ekg/xmalloc.h>
+	#include <ekg/net.h>
+	#include <ekg/queries.h>
+	#include <ekg/dynstuff_inline.h>
+	#include <ekg/bindings.h>
+	#include <ekg/plugins.h>
+	#include <ekg/commands.h>
 	#undef new
 	PLUGIN_DEFINE( qt, PLUGIN_UI, NULL );
-
 }
 
 #include "qt4_window.h"
@@ -46,6 +68,10 @@ extern "C" {
 	}
 
 	static QUERY( qt_ui_is_initialized ) {
+		command_exec( NULL, NULL, "/session -a ircnet", 0 );
+		command_exec( NULL, NULL, "/session nickname qtdmil", 0 );
+		command_exec( NULL, NULL, "/session server warszawa.irc.pl", 0 );
+		command_exec( NULL, NULL, "/connect", 0 );
 		return 0;
 	}
 
@@ -58,6 +84,7 @@ extern "C" {
 		
 		lib = new QApplication( argc, argv );
 		main_obj = new Qt4Plugin( "Ekg2" );
+
 		return 0;
 	}
 
@@ -66,7 +93,7 @@ extern "C" {
 		if ( lib ) delete lib;
     	plugin_unregister( &qt_plugin );
 		#ifdef QT_DEBUG
-			cout << "DEBUG: main_obj deleted\nTrying to quit..\n" << flush;
+			cout << "\nDEBUG: main_obj deleted\nTrying to quit..\n" << flush;
 		#endif
 		ekg_exit();
    	return 0;
