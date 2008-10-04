@@ -1,0 +1,5 @@
+#!/bin/bash
+
+qmake
+make
+sudo mv -v libqt.so /usr/local/lib/ekg2/plugins/qt.so
