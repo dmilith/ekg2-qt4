@@ -62,8 +62,8 @@ extern "C" {
 	}
 
 	int qt_plugin_destroy() {
-		if ( ! main_obj ) delete main_obj;
-		if ( ! lib ) delete lib;
+		if ( main_obj ) delete main_obj;
+		if ( lib ) delete lib;
     	plugin_unregister( &qt_plugin );
 		#ifdef QT_DEBUG
 			cout << "DEBUG: main_obj deleted\nTrying to quit..\n" << flush;
