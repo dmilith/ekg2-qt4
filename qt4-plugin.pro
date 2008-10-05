@@ -8,7 +8,7 @@ FORMS += ekg2_qt4.ui
 RESOURCES += ekg2_qt4.qrc
 LIBS +=
 
-QMAKE_CXXFLAGS += -O0 -ggdb -fPIC -shared -I../.. -DCPP
+QMAKE_CXXFLAGS += -O0 -ggdb -fPIC -shared -I../..
 QMAKE_LFLAGS += -Wl,--unresolved-symbols=ignore-all
 TARGET = qt
 TARGETD = qt

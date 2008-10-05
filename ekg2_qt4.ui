@@ -21,7 +21,7 @@
      <height>527</height>
     </rect>
    </property>
-   <widget class="QLineEdit" name="lineEdit" >
+   <widget class="QLineEdit" name="qt_entry" >
     <property name="geometry" >
      <rect>
       <x>0</x>
@@ -40,7 +40,7 @@
      <set>Qt::AlignRight|Qt::AlignTop|Qt::AlignTrailing</set>
     </property>
    </widget>
-   <widget class="QTextBrowser" name="textBrowser" >
+   <widget class="QTextBrowser" name="qt_main_window" >
     <property name="geometry" >
      <rect>
       <x>0</x>
@@ -49,8 +49,11 @@
       <height>481</height>
      </rect>
     </property>
+    <property name="autoFillBackground" >
+     <bool>true</bool>
+    </property>
    </widget>
-   <widget class="QTreeWidget" name="treeWidget" >
+   <widget class="QTreeWidget" name="qt_userlist" >
     <property name="geometry" >
      <rect>
       <x>640</x>
@@ -97,19 +100,35 @@
     <property name="title" >
      <string>Ekg2</string>
     </property>
-    <addaction name="actionPo_cz_sesj" />
-    <addaction name="actionRoz_cz_sesj" />
+    <addaction name="action_connect_session" />
+    <addaction name="action_disconnect_session" />
     <addaction name="action_exit" />
    </widget>
    <widget class="QMenu" name="menuUstawienia" >
     <property name="title" >
-     <string>Ustawienia</string>
+     <string>Settings</string>
     </property>
-    <addaction name="actionCore" />
-    <addaction name="actionUstawienia_interfejsu_Qt" />
+    <addaction name="action_core_settings" />
+    <addaction name="action_interface_settings" />
+    <addaction name="action_session_settings" />
+   </widget>
+   <widget class="QMenu" name="menuDebug" >
+    <property name="title" >
+     <string>Debug</string>
+    </property>
+    <addaction name="action_enable_debug_window" />
+   </widget>
+   <widget class="QMenu" name="menuHelp" >
+    <property name="title" >
+     <string>Help</string>
+    </property>
+    <addaction name="actionAbout" />
+    <addaction name="actionHelp" />
    </widget>
    <addaction name="menuEkg2" />
    <addaction name="menuUstawienia" />
+   <addaction name="menuDebug" />
+   <addaction name="menuHelp" />
   </widget>
   <widget class="QStatusBar" name="statusbar" >
    <property name="geometry" >
@@ -121,29 +140,55 @@
     </rect>
    </property>
   </widget>
-  <action name="actionPo_cz_sesj" >
+  <action name="action_connect_session" >
    <property name="text" >
-    <string>Połącz sesję</string>
+    <string>Connect current session</string>
    </property>
   </action>
-  <action name="actionRoz_cz_sesj" >
+  <action name="action_disconnect_session" >
+   <property name="enabled" >
+    <bool>false</bool>
+   </property>
    <property name="text" >
-    <string>Rozłącz sesję</string>
+    <string>Disconnect current session</string>
    </property>
   </action>
   <action name="action_exit" >
    <property name="text" >
-    <string>Wyjdź z programu</string>
+    <string>Quit Ekg2</string>
    </property>
   </action>
-  <action name="actionCore" >
+  <action name="action_core_settings" >
    <property name="text" >
-    <string>Ustawienia główne</string>
+    <string>Core settings</string>
    </property>
   </action>
-  <action name="actionUstawienia_interfejsu_Qt" >
+  <action name="action_interface_settings" >
    <property name="text" >
-    <string>Ustawienia interfejsu Qt</string>
+    <string>Interface settings</string>
+   </property>
+  </action>
+  <action name="action_enable_debug_window" >
+   <property name="checkable" >
+    <bool>true</bool>
+   </property>
+   <property name="text" >
+    <string>Enable debug window</string>
+   </property>
+  </action>
+  <action name="action_session_settings" >
+   <property name="text" >
+    <string>Session settings</string>
+   </property>
+  </action>
+  <action name="actionAbout" >
+   <property name="text" >
+    <string>About</string>
+   </property>
+  </action>
+  <action name="actionHelp" >
+   <property name="text" >
+    <string>Help(?)</string>
    </property>
   </action>
  </widget>

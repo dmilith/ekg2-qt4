@@ -6,41 +6,13 @@
  */
 
 #define USINGANANTIQUECOMPILER 1
-#define QT_NO_PRINTER // XXX: print()
+
+#include "ekg2_includes.h"
+#include "qt4_window.h"
 
 extern "C" {
-
-	#define new new_ekg
-	#include "ekg2-config.h"
-	#include <ekg/debug.h>
-	#include <ekg/plugins.h>
-	#include <ekg/queries.h>
-	#include <ekg/sessions.h>
-	#include <ekg/events.h>
-	#include <ekg/configfile.h>
-	#include <ekg/dynstuff.h>
-	#include <ekg/log.h>
-	#include <ekg/metacontacts.h>
-	#include <ekg/msgqueue.h>
-	#include <ekg/protocol.h>
-	#include <ekg/stuff.h>
-	#include <ekg/themes.h>
-	#include <ekg/vars.h>
-	#include <ekg/userlist.h>
-	#include <ekg/scripts.h>
-	#include <ekg/windows.h>
-	#include <ekg/xmalloc.h>
-	#include <ekg/net.h>
-	#include <ekg/queries.h>
-	#include <ekg/dynstuff_inline.h>
-	#include <ekg/bindings.h>
-	#include <ekg/plugins.h>
-	#include <ekg/commands.h>
-	#undef new
 	PLUGIN_DEFINE( qt, PLUGIN_UI, NULL );
 }
-
-#include "qt4_window.h"
 
 using namespace Ui;
 using namespace std;
@@ -67,11 +39,103 @@ extern "C" {
 		return 0;
 	}
 
+	static QUERY( qt_beep ) {
+		
+		return 0;
+	}
+
 	static QUERY( qt_ui_is_initialized ) {
-		command_exec( NULL, NULL, "/session -a ircnet", 0 );
-		command_exec( NULL, NULL, "/session nickname qtdmil", 0 );
-		command_exec( NULL, NULL, "/session server warszawa.irc.pl", 0 );
-		command_exec( NULL, NULL, "/connect", 0 );
+
+		return 0;
+	}
+
+	static QUERY( qt_setvar_default ) {
+
+		return 0;
+	}
+
+	static QUERY( qt_ui_window_switch ) {
+		
+		return 0;
+	}
+
+	static QUERY( qt_ui_window_print ) {
+		
+		return 0;
+	}
+
+	static QUERY( qt_ui_window_new ) {
+
+		return 0;
+	}
+
+	static QUERY( qt_ui_window_kill ) {
+
+		return 0;
+	}
+	
+	static QUERY( qt_ui_window_target_changed ) {
+
+		return 0;
+	}
+	
+	static QUERY( qt_ui_window_act_changed ) {
+
+		return 0;
+	}
+	
+	static QUERY( qt_ui_window_refresh ) {
+
+		return 0;
+	}
+
+	static QUERY( qt_ui_window_clear ) {
+
+		return 0;
+	}
+	
+	static QUERY( qt_ui_window_lastlog ) {
+
+		return 0;
+	}
+
+	static QUERY( qt_ui_refresh ) {
+
+		return 0;
+	}
+
+	static QUERY( qt_password_input ) {
+
+		return 0;
+	}
+
+	static QUERY( qt_statusbar_query ) {
+
+		return 0;
+	}
+
+	static QUERY( qt_binding_set_query ) {
+
+		return 0;
+	}
+
+	static QUERY( qt_binding_adddelete_query ) {
+
+		return 0;
+	}
+
+	static QUERY( qt_binding_default ) {
+
+		return 0;
+	}
+
+	static QUERY( qt_variable_changed ) {
+
+		return 0;
+	}
+
+	static QUERY( qt_conference_renamed ) {
+
 		return 0;
 	}
 
@@ -81,9 +145,37 @@ extern "C" {
 
 		query_connect_id( &qt_plugin, UI_IS_INITIALIZED, qt_ui_is_initialized, NULL );
 		query_connect_id( &qt_plugin, UI_LOOP, qt_plugin_loop, NULL );
-		
+		query_connect_id( &qt_plugin, SET_VARS_DEFAULT, qt_setvar_default, NULL );
+		query_connect_id( &qt_plugin, UI_BEEP, qt_beep, NULL );
+		query_connect_id( &qt_plugin, UI_WINDOW_SWITCH, qt_ui_window_switch, NULL );
+		query_connect_id( &qt_plugin, UI_WINDOW_PRINT, qt_ui_window_print, NULL );
+		query_connect_id( &qt_plugin, UI_WINDOW_KILL, qt_ui_window_kill, NULL );
+		query_connect_id( &qt_plugin, UI_WINDOW_TARGET_CHANGED, qt_ui_window_target_changed, NULL );
+		query_connect_id( &qt_plugin, UI_WINDOW_ACT_CHANGED, qt_ui_window_act_changed, NULL );
+		query_connect_id( &qt_plugin, UI_WINDOW_REFRESH, qt_ui_window_refresh, NULL );
+		query_connect_id( &qt_plugin, UI_WINDOW_CLEAR, qt_ui_window_clear, NULL );
+		query_connect_id( &qt_plugin, UI_WINDOW_UPDATE_LASTLOG, qt_ui_window_lastlog, NULL );
+		query_connect_id( &qt_plugin, UI_REFRESH, qt_ui_refresh, NULL );
+		query_connect_id( &qt_plugin, UI_PASSWORD_INPUT, qt_password_input, NULL );
+		query_connect_id( &qt_plugin, SESSION_ADDED, qt_statusbar_query, NULL );
+		query_connect_id( &qt_plugin, SESSION_REMOVED, qt_statusbar_query, NULL );
+		query_connect_id( &qt_plugin, SESSION_EVENT, qt_statusbar_query, NULL );
+		query_connect_id( &qt_plugin, SESSION_RENAMED, qt_statusbar_query, NULL );
+		query_connect_id( &qt_plugin, BINDING_SET, qt_binding_set_query, NULL );
+		query_connect_id( &qt_plugin, BINDING_COMMAND, qt_binding_adddelete_query, NULL );
+		query_connect_id( &qt_plugin, BINDING_DEFAULT, qt_binding_default, NULL );
+		query_connect_id( &qt_plugin, VARIABLE_CHANGED, qt_variable_changed, NULL );
+		query_connect_id( &qt_plugin, CONFERENCE_RENAMED, qt_conference_renamed, NULL );
+	
 		lib = new QApplication( argc, argv );
 		main_obj = new Qt4Plugin( "Ekg2" );
+
+		#ifdef QT_DEBUG
+			command_exec( NULL, NULL, "/session -a ircnet", 0 );
+			command_exec( NULL, NULL, "/session nickname qtdmil", 0 );
+			command_exec( NULL, NULL, "/session server warszawa.irc.pl", 0 );
+			command_exec( NULL, NULL, "/connect", 0 );
+		#endif
 
 		return 0;
 	}
@@ -95,7 +187,7 @@ extern "C" {
 		#ifdef QT_DEBUG
 			cout << "\nDEBUG: main_obj deleted\nTrying to quit..\n" << flush;
 		#endif
-		ekg_exit();
+		ekg_exit(); // XXX: shouldn't be here, It should be done automagically, but without it ekg2 segvs
    	return 0;
 	}
 

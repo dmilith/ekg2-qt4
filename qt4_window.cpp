@@ -6,6 +6,7 @@
  */
 
 
+#include "ekg2_includes.h"
 #include "qt4_window.h"
 
 using namespace Ui;
