@@ -1,12 +1,12 @@
 /*
  * author: Daniel (dmilith) Dettlaff
  * email: dmilith at drakor.eu
- * released under GPL2 license
+ * released under GPLv2 license
  * © 2oo8
  */
 
-#ifndef _QT4_WINDOW_H
-#define _QT4_WINDOW_H
+#ifndef _QT4_CONFIG_WINDOW_H
+#define _QT4_CONFIG_WINDOW_H
 
 #include <QtCore/QProcess>
 #include <QtCore/QCoreApplication>
@@ -22,31 +22,28 @@
 #include <QtGui/QSlider>
 
 #include "qtplugin_config.h"
-#include "ui_ekg2_qt4.h"
-#include "qt4_config_window.h"
+#include "ui_ekg2_qt4_config.h"
 
-const std::string MAIN_WINDOW_TITLE = "EKG2";
+// comment this out to get code without verbose debug.
 
 /* User Interface namespace is providing main UI inherited from automaticaly generated qt-designer templates */
 namespace Ui {
-  
-  class Qt4Plugin : public QMainWindow, public Ui::MainWindow {
+
+  class Qt4Config : public QWidget, public Ui::ConfigWidget {
     // qt4 ui macro (for actions)
     Q_OBJECT
 
     public:
-      Qt4Plugin( const QString& title = "dSipCom" );
-     ~Qt4Plugin();
+      Qt4Config( const QString& title );
+     ~Qt4Config();
      
       // init qt4 actions (ui slots and signals)
       void init_actions();
-		bool is_alive();
       
     private:
       
     // qt4 action slots
     public slots:
-	 	void open_config_window();
       
     // qt4 action signals
     signals:
@@ -54,7 +51,6 @@ namespace Ui {
   };
 
 } // of namespace
-
 
 #endif
 

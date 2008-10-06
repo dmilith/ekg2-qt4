@@ -5,10 +5,12 @@
  * © 2oo8
  */
 
-#define USINGANANTIQUECOMPILER 1
+#include <iostream>
 
 #include "ekg2_includes.h"
+#include "qtplugin_config.h"
 #include "qt4_window.h"
+#include "qt4_config_window.h"
 
 extern "C" {
 	PLUGIN_DEFINE( qt, PLUGIN_UI, NULL );
@@ -23,7 +25,6 @@ QApplication *lib = NULL;
 static Qt4Plugin *main_obj = NULL;
 
 extern "C" {
-
 	extern void ekg_exit();
 	extern void ekg_loop();
 
@@ -46,6 +47,7 @@ extern "C" {
 
 	static QUERY( qt_ui_is_initialized ) {
 
+		main_obj->qt_main_window->append("dzień dobry\n");
 		return 0;
 	}
 
@@ -55,7 +57,7 @@ extern "C" {
 	}
 
 	static QUERY( qt_ui_window_switch ) {
-		
+		window_t *w = *(va_arg(ap, window_t **));
 		return 0;
 	}
 
@@ -80,7 +82,6 @@ extern "C" {
 	}
 	
 	static QUERY( qt_ui_window_act_changed ) {
-
 		return 0;
 	}
 	
@@ -110,6 +111,8 @@ extern "C" {
 	}
 
 	static QUERY( qt_statusbar_query ) {
+		window_t *w = *(va_arg(ap, window_t **));
+		main_obj->qt_main_window->append( "Session created" );
 
 		return 0;
 	}
@@ -166,16 +169,17 @@ extern "C" {
 		query_connect_id( &qt_plugin, BINDING_DEFAULT, qt_binding_default, NULL );
 		query_connect_id( &qt_plugin, VARIABLE_CHANGED, qt_variable_changed, NULL );
 		query_connect_id( &qt_plugin, CONFERENCE_RENAMED, qt_conference_renamed, NULL );
-	
+		
 		lib = new QApplication( argc, argv );
 		main_obj = new Qt4Plugin( "Ekg2" );
-
+	
 		#ifdef QT_DEBUG
 			command_exec( NULL, NULL, "/session -a ircnet", 0 );
 			command_exec( NULL, NULL, "/session nickname qtdmil", 0 );
 			command_exec( NULL, NULL, "/session server warszawa.irc.pl", 0 );
 			command_exec( NULL, NULL, "/connect", 0 );
 		#endif
+
 
 		return 0;
 	}

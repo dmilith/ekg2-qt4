@@ -6,7 +6,7 @@
  */
 
 
-#include "ekg2_includes.h"
+//#include "ekg2_includes.h"
 #include "qt4_window.h"
 
 using namespace Ui;
@@ -28,6 +28,7 @@ Qt4Plugin::~Qt4Plugin() {
 void
 Qt4Plugin::init_actions() {
 	QObject::connect( action_exit, SIGNAL( activated() ), this, SLOT( close() ));
+	QObject::connect( action_core_settings, SIGNAL( activated() ), this, SLOT( open_config_window() ));
 }
 
 bool
@@ -38,3 +39,11 @@ Qt4Plugin::is_alive() {
 		return false;
 }
 
+extern "C" {
+
+void
+Qt4Plugin::open_config_window() {
+	Qt4Config config_window( "Ekg2 Core configuration." );
+}
+ 
+}
