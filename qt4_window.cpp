@@ -6,7 +6,7 @@
  */
 
 
-//#include "ekg2_includes.h"
+#include "ekg2_includes.h"
 #include "qt4_window.h"
 
 using namespace Ui;
@@ -39,11 +39,8 @@ Qt4Plugin::is_alive() {
 		return false;
 }
 
-extern "C" {
-
 void
 Qt4Plugin::open_config_window() {
 	Qt4Config config_window( "Ekg2 Core configuration." );
 }
  
-}
