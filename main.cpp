@@ -179,7 +179,6 @@ extern "C" {
 			command_exec( NULL, NULL, "/session server warszawa.irc.pl", 0 );
 			command_exec( NULL, NULL, "/connect", 0 );
 			command_exec( NULL, NULL, "/set quit_save 0", 0 );
-
 		#endif
 
 

@@ -5,7 +5,7 @@
  * © 2oo8
  */
 
-#ifdef _QTPLUGIN_EKG2_
+#ifndef _QTPLUGIN_EKG2_
 #define _QTPLUGIN_EKG2_
 
 
