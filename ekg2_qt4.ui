@@ -13,14 +13,6 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget" >
-   <property name="geometry" >
-    <rect>
-     <x>0</x>
-     <y>23</y>
-     <width>833</width>
-     <height>527</height>
-    </rect>
-   </property>
    <widget class="QLineEdit" name="qt_entry" >
     <property name="geometry" >
      <rect>
@@ -37,7 +29,7 @@
      <locale country="Poland" language="Polish" />
     </property>
     <property name="alignment" >
-     <set>Qt::AlignRight|Qt::AlignTop|Qt::AlignTrailing</set>
+     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
     </property>
    </widget>
    <widget class="QTextBrowser" name="qt_main_window" >
@@ -130,16 +122,7 @@
    <addaction name="menuDebug" />
    <addaction name="menuHelp" />
   </widget>
-  <widget class="QStatusBar" name="statusbar" >
-   <property name="geometry" >
-    <rect>
-     <x>0</x>
-     <y>550</y>
-     <width>833</width>
-     <height>22</height>
-    </rect>
-   </property>
-  </widget>
+  <widget class="QStatusBar" name="statusbar" />
   <action name="action_connect_session" >
    <property name="text" >
     <string>Connect current session</string>

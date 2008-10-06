@@ -35,8 +35,12 @@ defineTest(allFiles) {
 	return(true)
 }
 
-INCLUDEPATH *= ../..
+!exists("/usr/bin/ccache") {
+CMAKE_CXX = g++	
+} else {
 QMAKE_CXX = ccache g++
+}
+INCLUDEPATH *= ../..
 QMAKE_CXXFLAGS *= -ggdb -O0
 # not needed? QMAKE_LFLAGS *= -Wl,--unresolved-symbols=ignore-all
 TARGET = qt
