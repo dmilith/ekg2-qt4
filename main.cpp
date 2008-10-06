@@ -46,115 +46,115 @@ extern "C" {
 	}
 
 	static QUERY( qt_ui_is_initialized ) {
-		main_obj->qt_debug_window->append("Ui: Initialized.\n");
+		main_obj->qt_debug_window->append("Ui: Initialized.");
 
 		return 0;
 	}
 
 	static QUERY( qt_setvar_default ) {
-		main_obj->qt_debug_window->append("Ui: Default variables set.\n");
+		main_obj->qt_debug_window->append("Ui: Default variables set.");
 
 		return 0;
 	}
 
 	static QUERY( qt_ui_window_switch ) {
-		main_obj->qt_debug_window->append("Ui: Window switched.\n");
+		main_obj->qt_debug_window->append("Ui: Window switched.");
 		window_t *w = *(va_arg(ap, window_t **));
 		return 0;
 	}
 
 	static QUERY( qt_ui_window_print ) {
-		main_obj->qt_debug_window->append("Ui: Window print.\n");
+		main_obj->qt_debug_window->append("Ui: Window print.");
 		
 		return 0;
 	}
 
 	static QUERY( qt_ui_window_new ) {
-		main_obj->qt_debug_window->append("Ui: New window.\n");
+		main_obj->qt_debug_window->append("Ui: New window.");
 
 		return 0;
 	}
 
 	static QUERY( qt_ui_window_kill ) {
-		main_obj->qt_debug_window->append("Ui: Killed window.\n");
+		main_obj->qt_debug_window->append("Ui: Killed window.");
 
 		return 0;
 	}
 	
 	static QUERY( qt_ui_window_target_changed ) {
-		main_obj->qt_debug_window->append("Ui: Window target changed.\n");
+		main_obj->qt_debug_window->append("Ui: Window target changed.");
 
 		return 0;
 	}
 	
 	static QUERY( qt_ui_window_act_changed ) {
-		main_obj->qt_debug_window->append("Ui: Actual window changed.\n");
+		main_obj->qt_debug_window->append("Ui: Actual window changed.");
 		return 0;
 	}
 	
 	static QUERY( qt_ui_window_refresh ) {
-		main_obj->qt_debug_window->append("Ui: Window refresh.\n");
+		main_obj->qt_debug_window->append("Ui: Window refresh.");
 
 		return 0;
 	}
 
 	static QUERY( qt_ui_window_clear ) {
-		main_obj->qt_debug_window->append("Ui: Window clear.\n");
+		main_obj->qt_debug_window->append("Ui: Window clear.");
 
 		return 0;
 	}
 	
 	static QUERY( qt_ui_window_lastlog ) {
-		main_obj->qt_debug_window->append("Ui: Window lastlog.\n");
+		main_obj->qt_debug_window->append("Ui: Window lastlog.");
 
 		return 0;
 	}
 
 	static QUERY( qt_ui_refresh ) {
-		main_obj->qt_debug_window->append("Ui: Refresh.\n");
+		main_obj->qt_debug_window->append("Ui: Refresh.");
 
 		return 0;
 	}
 
 	static QUERY( qt_password_input ) {
-		main_obj->qt_debug_window->append("Ui: Password input.\n");
+		main_obj->qt_debug_window->append("Ui: Password input.");
 
 		return 0;
 	}
 
 	static QUERY( qt_statusbar_query ) {
 		window_t *w = *(va_arg(ap, window_t **));
-		main_obj->qt_debug_window->append( "Ui: Statusbar query.\n" );
+		main_obj->qt_debug_window->append( "Ui: Statusbar query." );
 
 		return 0;
 	}
 
 	static QUERY( qt_binding_set_query ) {
-		main_obj->qt_debug_window->append("Ui: Binding query set (?).\n");
+		main_obj->qt_debug_window->append("Ui: Binding query set (?).");
 
 		return 0;
 	}
 
 	static QUERY( qt_binding_adddelete_query ) {
-		main_obj->qt_debug_window->append("Ui: Binding add/delete (?).\n");
+		main_obj->qt_debug_window->append("Ui: Binding add/delete (?).");
 
 		return 0;
 	}
 
 	static QUERY( qt_binding_default ) {
-		main_obj->qt_debug_window->append("Ui: Default binding (?).\n");
+		main_obj->qt_debug_window->append("Ui: Default binding (?).");
 
 		return 0;
 	}
 
 	static QUERY( qt_variable_changed ) {
-		main_obj->qt_debug_window->append("Ui: Variable changed.\n");
+		main_obj->qt_debug_window->append("Ui: Variable changed.");
 
 		return 0;
 	}
 
 	static QUERY( qt_conference_renamed ) {
-		main_obj->qt_debug_window->append("Ui: Conference renamed.\n");
+		main_obj->qt_debug_window->append("Ui: Conference renamed.");
 
 		return 0;
 	}
@@ -165,7 +165,7 @@ extern "C" {
 		lib = new QApplication( argc, argv );
 		main_obj = new Qt4Plugin( "Ekg2" );
 		
-		main_obj->qt_debug_window->append("Ui: Plugin initialized.\n");
+		main_obj->qt_debug_window->append("Ui: Plugin initialized.");
 
 		query_connect_id( &qt_plugin, UI_IS_INITIALIZED, qt_ui_is_initialized, NULL );
 		query_connect_id( &qt_plugin, UI_LOOP, qt_plugin_loop, NULL );
@@ -209,7 +209,7 @@ extern "C" {
 		if ( lib ) delete lib;
     	plugin_unregister( &qt_plugin );
 		#ifdef QT_DEBUG
-			cout << "\nDEBUG: main_obj deleted\nTrying to quit..\n" << flush;
+			cout << "DEBUG: main_obj deletedTrying to quit.." << flush;
 		#endif
 		ekg_exit(); // XXX: shouldn't be here, It should be done automagically, but without it ekg2 segvs
    	return 0;
