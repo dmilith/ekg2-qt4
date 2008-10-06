@@ -2,7 +2,12 @@ extern "C" {
 
 	#define USINGANANTIQUECOMPILER 1
 	#define QT_NO_PRINTER // XXX: Qt4 API conflict with print()
-	#define new new_ekg // XXX: Ekg2 shouldn't use new, private and class keywords in core code.
+
+	// XXX: C => C++ & ekg2 core compatibility issues:
+	#define strcasestr strcasestr_ekg
+	#define new new_ekg
+	#define class class_ekg
+	#define private private_ekg
 
 	#include "ekg2-config.h"
 
@@ -32,5 +37,8 @@ extern "C" {
 	#include <ekg/commands.h>
 
 	#undef new
+	#undef class
+	#undef private
+	#undef strcasestr
 }
 

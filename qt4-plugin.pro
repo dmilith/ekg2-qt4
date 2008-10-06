@@ -1,8 +1,9 @@
 message("Qt4 plugin for ekg2, by Daniel (dmilith) Dettlaff")
 VERSION = 0.0.4
 TEMPLATE = lib
-CONFIG *= plugin debug warn_off qt thread shared 
-HEADERS *= qt4_window.h
+CONFIG *= plugin debug warn_off qt thread shared
+HEADERS *= qt4_window.h \
+			qt4_config_window.h
 SOURCES *= qt4_window.cpp \
 			qt4_config_window.cpp \
 			main.cpp

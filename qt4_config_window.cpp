@@ -6,7 +6,7 @@
  */
 
 
-//#include "ekg2_includes.h"
+#include "ekg2_includes.h"
 #include "qtplugin_config.h"
 #include "qt4_config_window.h"
 
@@ -28,6 +28,6 @@ Qt4Config::~Qt4Config() {
 
 void
 Qt4Config::init_actions() {
-//	QObject::connect( action_exit, SIGNAL( activated() ), this, SLOT( close() ));
+//	QObject::connect( action_, SIGNAL( activated() ), this, SLOT( close() ));
 }
 
