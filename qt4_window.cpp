@@ -12,6 +12,7 @@
 using namespace Ui;
 
 Qt4Plugin::Qt4Plugin( const QString& title ) {
+	config_window = NULL;
 	setupUi( this );
 	QTextCodec::setCodecForCStrings( QTextCodec::codecForName( "UTF-8" ) );
 	Qt::WindowFlags flags;
@@ -23,6 +24,7 @@ Qt4Plugin::Qt4Plugin( const QString& title ) {
 }
 
 Qt4Plugin::~Qt4Plugin() {
+	if (config_window) delete config_window;
 }
 
 void
@@ -41,6 +43,6 @@ Qt4Plugin::is_alive() {
 
 void
 Qt4Plugin::open_config_window() {
-	Qt4Config config_window( "Ekg2 Core configuration." );
+	config_window = new Qt4Config( "Ekg2 Core configuration." );
 }
  

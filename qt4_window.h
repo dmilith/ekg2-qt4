@@ -43,6 +43,7 @@ namespace Ui {
 		bool is_alive();
       
     private:
+	 	Qt4Config *config_window;
       
     // qt4 action slots
     public slots:

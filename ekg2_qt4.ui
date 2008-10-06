@@ -9,6 +9,12 @@
     <height>572</height>
    </rect>
   </property>
+  <property name="sizePolicy" >
+   <sizepolicy vsizetype="Expanding" hsizetype="Expanding" >
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
   <property name="windowTitle" >
    <string>MainWindow</string>
   </property>
@@ -22,6 +28,12 @@
       <height>41</height>
      </rect>
     </property>
+    <property name="sizePolicy" >
+     <sizepolicy vsizetype="Expanding" hsizetype="Expanding" >
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
+    </property>
     <property name="focusPolicy" >
      <enum>Qt::WheelFocus</enum>
     </property>
@@ -30,19 +42,6 @@
     </property>
     <property name="alignment" >
      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
-    </property>
-   </widget>
-   <widget class="QTextBrowser" name="qt_main_window" >
-    <property name="geometry" >
-     <rect>
-      <x>0</x>
-      <y>0</y>
-      <width>631</width>
-      <height>481</height>
-     </rect>
-    </property>
-    <property name="autoFillBackground" >
-     <bool>true</bool>
     </property>
    </widget>
    <widget class="QTreeWidget" name="qt_userlist" >
@@ -55,7 +54,7 @@
      </rect>
     </property>
     <property name="sizePolicy" >
-     <sizepolicy vsizetype="Maximum" hsizetype="Maximum" >
+     <sizepolicy vsizetype="Expanding" hsizetype="Expanding" >
       <horstretch>0</horstretch>
       <verstretch>0</verstretch>
      </sizepolicy>
@@ -77,6 +76,54 @@
       <string>1</string>
      </property>
     </column>
+   </widget>
+   <widget class="QTabWidget" name="tabs" >
+    <property name="geometry" >
+     <rect>
+      <x>0</x>
+      <y>10</y>
+      <width>631</width>
+      <height>471</height>
+     </rect>
+    </property>
+    <property name="autoFillBackground" >
+     <bool>true</bool>
+    </property>
+    <property name="tabPosition" >
+     <enum>QTabWidget::South</enum>
+    </property>
+    <property name="tabShape" >
+     <enum>QTabWidget::Rounded</enum>
+    </property>
+    <property name="currentIndex" >
+     <number>0</number>
+    </property>
+    <widget class="QWidget" name="debug" >
+     <attribute name="title" >
+      <string>debug</string>
+     </attribute>
+     <widget class="QTextBrowser" name="qt_main_window" >
+      <property name="geometry" >
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>621</width>
+        <height>431</height>
+       </rect>
+      </property>
+      <property name="autoFillBackground" >
+       <bool>true</bool>
+      </property>
+      <property name="autoFormatting" >
+       <set>QTextEdit::AutoAll</set>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="status" >
+     <attribute name="title" >
+      <string>status</string>
+     </attribute>
+    </widget>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar" >
