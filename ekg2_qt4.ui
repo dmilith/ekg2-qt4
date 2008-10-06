@@ -102,7 +102,7 @@
      <attribute name="title" >
       <string>debug</string>
      </attribute>
-     <widget class="QTextBrowser" name="qt_main_window" >
+     <widget class="QTextBrowser" name="qt_debug_window" >
       <property name="geometry" >
        <rect>
         <x>0</x>
