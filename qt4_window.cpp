@@ -65,7 +65,9 @@ Qt4Plugin::kill_window() {
 
 void
 Qt4Plugin::next_window() {
-	if ( get_current_window() + 1 < tabs->count() )
+	if ( ! get_current_window() ) {
+		set_current_window( 1 );
+	} else if ( get_current_window() + 1 < tabs->count() )
 		set_current_window( get_current_window() + 1 );
 	else
 		set_current_window( 1 ); //cause 0 is debug window which we don't want to switch on by default
@@ -74,7 +76,9 @@ Qt4Plugin::next_window() {
 
 void
 Qt4Plugin::previous_window() {
-	if ( get_current_window() - 1 > 0 )
+	if ( ! get_current_window() ) {
+		set_current_window( tabs->count() - 1 );
+	} else if ( get_current_window() - 1 > 0 )
 		set_current_window( get_current_window() - 1 );
 	else
 		set_current_window( tabs->count() - 1 ); 

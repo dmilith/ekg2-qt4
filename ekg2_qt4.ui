@@ -233,6 +233,9 @@
    <property name="text" >
     <string>Enable debug window</string>
    </property>
+   <property name="shortcut" >
+    <string>Alt+D</string>
+   </property>
   </action>
   <action name="action_session_settings" >
    <property name="text" >
