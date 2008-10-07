@@ -156,6 +156,7 @@
      <string>Debug</string>
     </property>
     <addaction name="action_enable_debug_window" />
+    <addaction name="action_clear_current_window" />
    </widget>
    <widget class="QMenu" name="menuHelp" >
     <property name="title" >
@@ -219,6 +220,11 @@
   <action name="actionHelp" >
    <property name="text" >
     <string>Help(?)</string>
+   </property>
+  </action>
+  <action name="action_clear_current_window" >
+   <property name="text" >
+    <string>Clear current window</string>
    </property>
   </action>
  </widget>

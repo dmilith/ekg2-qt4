@@ -38,9 +38,12 @@ namespace Ui {
       Qt4Plugin( const QString& title = "dSipCom" );
      ~Qt4Plugin();
      
-      // init qt4 actions (ui slots and signals)
+      //void set_current_window();
+
+		// init qt4 actions (ui slots and signals)
       void init_actions();
 		bool is_alive();
+	// 	QTextBrowser *current_window;
       
     private:
 	 	Qt4Config *config_window;
@@ -48,10 +51,14 @@ namespace Ui {
     // qt4 action slots
     public slots:
 	 	void open_config_window();
+		void clear_current_window();
+		void qt_entry_command_exec();
+//		void qt_entry_command_previous();
       
     // qt4 action signals
     signals:
       void clicked();
+		void returnPressed();
   };
 
 } // of namespace

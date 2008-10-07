@@ -64,18 +64,26 @@ extern "C" {
 	}
 
 	static QUERY( qt_ui_window_print ) {
-		main_obj->qt_debug_window->append("Ui: Window print.");
+		window_t *w = *(va_arg(ap, window_t **));
+		fstring_t *line = *(va_arg(ap, fstring_t **));
+		char* z = line->str.b;
+		std::string zz = z;
+		main_obj->qt_debug_window->append( (QString)zz.c_str() );
+		main_obj->qt_debug_window->append( "Ui: Window print." );
 		
 		return 0;
 	}
 
 	static QUERY( qt_ui_window_new ) {
-		main_obj->qt_debug_window->append("Ui: New window.");
-
+		window_t **w = va_arg(ap, window_t **);
+		// TODO: should open new window here with *w
+		main_obj->qt_debug_window->append("Ui: New window." );
 		return 0;
 	}
 
 	static QUERY( qt_ui_window_kill ) {
+		window_t **w = va_arg(ap, window_t **);
+		// TODO: should kill actual window *w
 		main_obj->qt_debug_window->append("Ui: Killed window.");
 
 		return 0;
@@ -99,8 +107,9 @@ extern "C" {
 	}
 
 	static QUERY( qt_ui_window_clear ) {
-		main_obj->qt_debug_window->append("Ui: Window clear.");
-
+		window_t **w = va_arg(ap, window_t **);
+		main_obj->qt_debug_window->clear();
+		main_obj->qt_debug_window->append("Ui: Window cleared.");
 		return 0;
 	}
 	
@@ -112,7 +121,7 @@ extern "C" {
 
 	static QUERY( qt_ui_refresh ) {
 		main_obj->qt_debug_window->append("Ui: Refresh.");
-
+		main_obj->update();
 		return 0;
 	}
 
