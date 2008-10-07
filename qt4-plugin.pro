@@ -10,6 +10,7 @@ SOURCES *= qt4_window.cpp \
 FORMS *= ekg2_qt4.ui \
 			ekg2_qt4_config.ui
 RESOURCES *= ekg2_qt4.qrc
+DEFINES *= USE_UNICODE
 LIBS *= 
 
 linux-g++ {
