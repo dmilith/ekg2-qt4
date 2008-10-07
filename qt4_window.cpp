@@ -57,10 +57,17 @@ Qt4Plugin::get_current_window() {
 
 void
 Qt4Plugin::new_window() {
+	command_exec( NULL, NULL, "/window new", 0 );
+	set_current_window( tabs->currentIndex() );
 }
 
 void
 Qt4Plugin::kill_window() {
+	if ( tabs->currentIndex() > 1 ) {
+		tabs->removeTab( get_current_window() );
+		set_current_window( tabs->currentIndex() );
+	}
+
 }
 
 void

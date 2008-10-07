@@ -262,7 +262,7 @@
     <string>New window</string>
    </property>
    <property name="shortcut" >
-    <string>Ctrl+N</string>
+    <string>Alt+N</string>
    </property>
    <property name="shortcutContext" >
     <enum>Qt::ApplicationShortcut</enum>
