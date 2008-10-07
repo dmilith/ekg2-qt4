@@ -1,4 +1,5 @@
 <ui version="4.0" >
+ <author>Daniel (dmilith) Dettlaff</author>
  <class>MainWindow</class>
  <widget class="QMainWindow" name="MainWindow" >
   <property name="geometry" >
@@ -100,7 +101,7 @@
     </property>
     <widget class="QWidget" name="debug" >
      <attribute name="title" >
-      <string>debug</string>
+      <string>dbg</string>
      </attribute>
      <widget class="QTextBrowser" name="qt_debug_window" >
       <property name="geometry" >
@@ -123,6 +124,22 @@
      <attribute name="title" >
       <string>status</string>
      </attribute>
+     <widget class="QTextBrowser" name="qt_status_window" >
+      <property name="geometry" >
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>621</width>
+        <height>431</height>
+       </rect>
+      </property>
+      <property name="autoFillBackground" >
+       <bool>true</bool>
+      </property>
+      <property name="autoFormatting" >
+       <set>QTextEdit::AutoAll</set>
+      </property>
+     </widget>
     </widget>
    </widget>
   </widget>
@@ -165,10 +182,20 @@
     <addaction name="actionAbout" />
     <addaction name="actionHelp" />
    </widget>
+   <widget class="QMenu" name="menuWindows" >
+    <property name="title" >
+     <string>Windows</string>
+    </property>
+    <addaction name="action_new_window" />
+    <addaction name="action_kill_window" />
+    <addaction name="action_next_window" />
+    <addaction name="action_previous_window" />
+   </widget>
    <addaction name="menuEkg2" />
    <addaction name="menuUstawienia" />
    <addaction name="menuDebug" />
    <addaction name="menuHelp" />
+   <addaction name="menuWindows" />
   </widget>
   <widget class="QStatusBar" name="statusbar" />
   <action name="action_connect_session" >
@@ -227,7 +254,44 @@
     <string>Clear current window</string>
    </property>
   </action>
+  <action name="action_new_window" >
+   <property name="text" >
+    <string>New window</string>
+   </property>
+   <property name="shortcut" >
+    <string>Ctrl+N</string>
+   </property>
+   <property name="shortcutContext" >
+    <enum>Qt::ApplicationShortcut</enum>
+   </property>
+  </action>
+  <action name="action_kill_window" >
+   <property name="text" >
+    <string>Kill window</string>
+   </property>
+   <property name="shortcut" >
+    <string>Alt+K</string>
+   </property>
+  </action>
+  <action name="action_next_window" >
+   <property name="text" >
+    <string>Next window</string>
+   </property>
+   <property name="shortcut" >
+    <string>Alt+Right</string>
+   </property>
+  </action>
+  <action name="action_previous_window" >
+   <property name="text" >
+    <string>Previous window</string>
+   </property>
+   <property name="shortcut" >
+    <string>Alt+Left</string>
+   </property>
+  </action>
  </widget>
+ <layoutfunction spacing="0.2" margin="0.2" />
+ <includes/>
  <resources/>
  <connections/>
 </ui>

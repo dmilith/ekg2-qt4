@@ -60,16 +60,20 @@ extern "C" {
 	static QUERY( qt_ui_window_switch ) {
 		main_obj->qt_debug_window->append("Ui: Window switched.");
 		window_t *w = *(va_arg(ap, window_t **));
+		main_obj->tabs->addTab( new QWidget, QString("new window") );
+		main_obj->set_current_window( main_obj->get_current_window() + 1 );
+		main_obj->tabs->setCurrentIndex( main_obj->get_current_window() );
+		main_obj->qt_debug_window->append("Ui: Current window: " + QString( main_obj->get_current_window() ) );
 		return 0;
 	}
 
 	static QUERY( qt_ui_window_print ) {
 		window_t *w = *(va_arg(ap, window_t **));
 		fstring_t *line = *(va_arg(ap, fstring_t **));
-		char* z = line->str.b;
-		std::string zz = z;
-		main_obj->qt_debug_window->append( (QString)zz.c_str() );
+		char* z = line->str.b; // XXX: wchar_t* should be get instead of one byte char
 		main_obj->qt_debug_window->append( "Ui: Window print." );
+		main_obj->tabs->setCurrentIndex( main_obj->get_current_window() );
+		main_obj->qt_status_window->append( QString( z ) );
 		
 		return 0;
 	}
@@ -84,7 +88,11 @@ extern "C" {
 	static QUERY( qt_ui_window_kill ) {
 		window_t **w = va_arg(ap, window_t **);
 		// TODO: should kill actual window *w
-		main_obj->qt_debug_window->append("Ui: Killed window.");
+		main_obj->qt_debug_window->append("Ui: Killed window."); // <-- this should be done after /window kill ;f wtf?
+	/*	main_obj->tabs->removeTab( main_obj->current_window );
+		main_obj->current_window--;
+		main_obj->tabs->setCurrentIndex( main_obj->current_window );
+*/
 
 		return 0;
 	}
@@ -173,7 +181,8 @@ extern "C" {
 		plugin_register( &qt_plugin, prio );
 		lib = new QApplication( argc, argv );
 		main_obj = new Qt4Plugin( "Ekg2" );
-		
+		// two tabs are static: qt_debug_window and qt_status_window. They cannot be closed (so far).
+		main_obj->tabs->setTabEnabled( 0, false ); // tab[0] will always be debug window
 		main_obj->qt_debug_window->append("Ui: Plugin initialized.");
 
 		query_connect_id( &qt_plugin, UI_IS_INITIALIZED, qt_ui_is_initialized, NULL );
@@ -200,15 +209,19 @@ extern "C" {
 		query_connect_id( &qt_plugin, VARIABLE_CHANGED, qt_variable_changed, NULL );
 		query_connect_id( &qt_plugin, CONFERENCE_RENAMED, qt_conference_renamed, NULL );
 		
-	
 		#ifdef QT_DEBUG
-			command_exec( NULL, NULL, "/session -a ircnet", 0 );
+			command_exec( NULL, NULL, "/plugin +irc", 0 );
+			command_exec( NULL, NULL, "/session -a irc:ircnet", 0 );
 			command_exec( NULL, NULL, "/session nickname qtdmil", 0 );
 			command_exec( NULL, NULL, "/session server warszawa.irc.pl", 0 );
+			command_exec( NULL, NULL, "/session port 6667", 0 );
 			command_exec( NULL, NULL, "/connect", 0 );
-			command_exec( NULL, NULL, "/set quit_save 0", 0 );
-		#endif
+			command_exec( NULL, NULL, "/set save_quit 0", 0 );
+			command_exec( NULL, NULL, "/window new", 0 );
+			command_exec( NULL, NULL, "/window new", 0 );
+			command_exec( NULL, NULL, "/window new", 0 );
 
+		#endif
 
 		return 0;
 	}
