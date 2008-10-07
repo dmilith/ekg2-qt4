@@ -3,3 +3,7 @@ Debug/
 Release/
 *.swp
 *.o
+moc_*
+ui_ekg*
+qrc_ekg*
+
