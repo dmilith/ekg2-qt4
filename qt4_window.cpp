@@ -56,19 +56,24 @@ Qt4Plugin::get_current_window() {
 }
 
 void
-Qt4Plugin::new_window() {
-	command_exec( NULL, NULL, "/window new", 0 );
+Qt4Plugin::new_window() { //DEBUG action ofcourse.. it should be done automatically
+	session_t *s;
+	if (!session_current)
+		return;
+	s = session_current;
+
+	command_exec( "#ekg2", s, "/window new", 0 );
 	QWidget *window = new QWidget();
 	tabs->addTab( window, QString("#ekg2") ); // XXX: should be contact / chan name
 	set_current_window( get_current_window() + 1 );
 	tabs->setCurrentIndex( get_current_window() );
 
+	// XXX FIXME This below seems to not work well ;}
 	QTextBrowser *window_content = new QTextBrowser( window );
-	window_content->setObjectName(QString::fromUtf8("qt_debug_window"));
+	window_content->setObjectName(QString::fromUtf8("ekg2"));
 	window_content->setGeometry(QRect(0, 0, 621, 431));
 	window_content->setAutoFillBackground(true);
 	window_content->setAutoFormatting(QTextEdit::AutoAll);
-
 }
 
 void
@@ -140,8 +145,8 @@ void
 Qt4Plugin::qt_entry_command_exec() {
 	session_t *s;
 	userlist_t *ul;
-	//if (!session_current)
-	//	return;
+	if (!session_current)
+		return;
 	s = session_current;
 
 	for (ul = s->userlist; ul; ul = ul->next) {

@@ -38,19 +38,17 @@ extern "C" {
 	}
 
 	static QUERY( qt_beep ) {
-		
+		lib->beep();
 		return 0;
 	}
 
 	static QUERY( qt_ui_is_initialized ) {
 		main_obj->qt_debug_window->append("Ui: Initialized.");
-
 		return -1;
 	}
 
 	static QUERY( qt_setvar_default ) {
 		main_obj->qt_debug_window->append("Ui: Default variables set.");
-
 		return 0;
 	}
 
@@ -66,15 +64,11 @@ extern "C" {
 
 	static QUERY( qt_ui_window_print ) {
 		window_t *w = *(va_arg(ap, window_t **));
-		//const char  *session = *va_arg(ap, const char **);
-	   //const session_t   *s    = session_find( session );
-
 		fstring_t *line = *(va_arg(ap, fstring_t **));
 		wchar_t* z = line->str.w;
 		main_obj->qt_debug_window->append( "Ui: Window print." );
 		main_obj->tabs->setCurrentIndex( main_obj->tabs->currentIndex() );
 		main_obj->qt_status_window->append( QString::fromUtf8( (char*)z ).toUtf8() ); // XXX
-		
 		return 0;
 	}
 
@@ -91,16 +85,13 @@ extern "C" {
 		main_obj->qt_debug_window->append("Ui: Killed window."); // <-- this should be done after /window kill ;f but it is not. why?
 	/*	main_obj->tabs->removeTab( main_obj->current_window );
 		main_obj->current_window--;
-		main_obj->tabs->setCurrentIndex( main_obj->current_window );
-*/
-
+		main_obj->tabs->setCurrentIndex( main_obj->current_window ); */
 		return 0;
 	}
 	
 	static QUERY( qt_ui_window_target_changed ) {
 		window_t **w = va_arg(ap, window_t **);
 		main_obj->qt_debug_window->append("Ui: Window target changed.");
-
 		return 0;
 	}
 	
@@ -113,7 +104,6 @@ extern "C" {
 	static QUERY( qt_ui_window_refresh ) {
 		window_t **w = va_arg(ap, window_t **);
 		main_obj->qt_debug_window->append("Ui: Window refresh.");
-
 		return 0;
 	}
 
@@ -126,7 +116,6 @@ extern "C" {
 	
 	static QUERY( qt_ui_window_lastlog ) {
 		main_obj->qt_debug_window->append("Ui: Window lastlog.");
-
 		return 0;
 	}
 
@@ -138,50 +127,43 @@ extern "C" {
 
 	static QUERY( qt_password_input ) {
 		main_obj->qt_debug_window->append("Ui: Password input.");
-
 		return 0;
 	}
 
 	static QUERY( qt_statusbar_query ) {
 		window_t *w = *(va_arg(ap, window_t **));
 		main_obj->qt_debug_window->append( "Ui: Statusbar query." );
-
 		return 0;
 	}
 
 	static QUERY( qt_binding_set_query ) {
 		main_obj->qt_debug_window->append("Ui: Binding query set (?).");
-
 		return 0;
 	}
 
 	static QUERY( qt_binding_adddelete_query ) {
 		main_obj->qt_debug_window->append("Ui: Binding add/delete (?).");
-
 		return 0;
 	}
 
 	static QUERY( qt_binding_default ) {
 		main_obj->qt_debug_window->append("Ui: Default binding (?).");
-
 		return 0;
 	}
 
 	static QUERY( qt_variable_changed ) {
 		main_obj->qt_debug_window->append("Ui: Variable changed.");
-
 		return 0;
 	}
 
 	static QUERY( qt_conference_renamed ) {
 		main_obj->qt_debug_window->append("Ui: Conference renamed.");
-
 		return 0;
 	}
 
 	static QUERY( qt_all_contacts_changed ) {
 		main_obj->qt_debug_window->append("Ui: Userlist changed.");
-
+		return 0;
 	}
 
 	int qt_plugin_init( int prio ) {
@@ -230,8 +212,6 @@ extern "C" {
 		query_connect_id( &qt_plugin, USERLIST_ADDED, qt_all_contacts_changed, NULL );
 		query_connect_id( &qt_plugin, USERLIST_REMOVED, qt_all_contacts_changed, NULL );
 		query_connect_id( &qt_plugin, USERLIST_RENAMED, qt_all_contacts_changed, NULL );
-
-
 		#ifdef QT_DEBUG
 			command_exec( NULL, NULL, "/plugin +irc", 0 );
 			command_exec( NULL, NULL, "/session -a irc:ircnet", 0 );
@@ -241,12 +221,7 @@ extern "C" {
 			command_exec( NULL, NULL, "/connect", 0 );
 			command_exec( NULL, NULL, "/j #ekg2", 0 );
 			command_exec( NULL, NULL, "/set save_quit 0", 0 );
-			command_exec( NULL, NULL, "/window new", 0 );
-			command_exec( NULL, NULL, "/window new", 0 );
-			command_exec( NULL, NULL, "/window new", 0 );
-
 		#endif
-
 		return 0;
 	}
 
