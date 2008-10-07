@@ -30,9 +30,6 @@ extern "C" {
 
 	static QUERY( qt_plugin_loop ) {
 		while ( main_obj->is_alive() ) {
-			#ifdef QT_DEBUG
-				cout << "." << flush;
-			#endif	
 			lib->processEvents();
 			ekg_loop();
 		}
@@ -48,7 +45,7 @@ extern "C" {
 	static QUERY( qt_ui_is_initialized ) {
 		main_obj->qt_debug_window->append("Ui: Initialized.");
 
-		return 0;
+		return -1;
 	}
 
 	static QUERY( qt_setvar_default ) {
@@ -58,22 +55,25 @@ extern "C" {
 	}
 
 	static QUERY( qt_ui_window_switch ) {
-		main_obj->qt_debug_window->append("Ui: Window switched.");
 		window_t *w = *(va_arg(ap, window_t **));
-		main_obj->tabs->addTab( new QWidget, QString("new window") );
+		main_obj->qt_debug_window->append("Ui: Window switched.");
+/*		main_obj->tabs->addTab( new QWidget, QString("new window") );
 		main_obj->set_current_window( main_obj->get_current_window() + 1 );
-		main_obj->tabs->setCurrentIndex( main_obj->get_current_window() );
-		main_obj->qt_debug_window->append("Ui: Current window: " + QString( main_obj->get_current_window() ) );
+		main_obj->tabs->setCurrentIndex( main_obj->get_current_window() );*/
+		main_obj->qt_debug_window->append("Ui: Current window: " + QString::number( main_obj->tabs->currentIndex(), 10 ) );
 		return 0;
 	}
 
 	static QUERY( qt_ui_window_print ) {
 		window_t *w = *(va_arg(ap, window_t **));
+		//const char  *session = *va_arg(ap, const char **);
+	   //const session_t   *s    = session_find( session );
+
 		fstring_t *line = *(va_arg(ap, fstring_t **));
-		char* z = line->str.b; // XXX: wchar_t* should be get instead of one byte char
+		wchar_t* z = line->str.w;
 		main_obj->qt_debug_window->append( "Ui: Window print." );
-		main_obj->tabs->setCurrentIndex( main_obj->get_current_window() );
-		main_obj->qt_status_window->append( QString( z ) );
+		main_obj->tabs->setCurrentIndex( main_obj->tabs->currentIndex() );
+		main_obj->qt_status_window->append( QString::fromUtf8( (char*)z ).toUtf8() ); // XXX
 		
 		return 0;
 	}
@@ -88,7 +88,7 @@ extern "C" {
 	static QUERY( qt_ui_window_kill ) {
 		window_t **w = va_arg(ap, window_t **);
 		// TODO: should kill actual window *w
-		main_obj->qt_debug_window->append("Ui: Killed window."); // <-- this should be done after /window kill ;f wtf?
+		main_obj->qt_debug_window->append("Ui: Killed window."); // <-- this should be done after /window kill ;f but it is not. why?
 	/*	main_obj->tabs->removeTab( main_obj->current_window );
 		main_obj->current_window--;
 		main_obj->tabs->setCurrentIndex( main_obj->current_window );
@@ -98,17 +98,20 @@ extern "C" {
 	}
 	
 	static QUERY( qt_ui_window_target_changed ) {
+		window_t **w = va_arg(ap, window_t **);
 		main_obj->qt_debug_window->append("Ui: Window target changed.");
 
 		return 0;
 	}
 	
 	static QUERY( qt_ui_window_act_changed ) {
+		window_t **w = va_arg(ap, window_t **);
 		main_obj->qt_debug_window->append("Ui: Actual window changed.");
 		return 0;
 	}
 	
 	static QUERY( qt_ui_window_refresh ) {
+		window_t **w = va_arg(ap, window_t **);
 		main_obj->qt_debug_window->append("Ui: Window refresh.");
 
 		return 0;
@@ -176,6 +179,11 @@ extern "C" {
 		return 0;
 	}
 
+	static QUERY( qt_all_contacts_changed ) {
+		main_obj->qt_debug_window->append("Ui: Userlist changed.");
+
+	}
+
 	int qt_plugin_init( int prio ) {
 		PLUGIN_CHECK_VER( "qt" );
 		plugin_register( &qt_plugin, prio );
@@ -209,6 +217,21 @@ extern "C" {
 		query_connect_id( &qt_plugin, VARIABLE_CHANGED, qt_variable_changed, NULL );
 		query_connect_id( &qt_plugin, CONFERENCE_RENAMED, qt_conference_renamed, NULL );
 		
+		// userlist
+		query_connect_id( &qt_plugin, UI_REFRESH, qt_all_contacts_changed, (void *) 1 );
+		query_connect_id( &qt_plugin, USERLIST_REFRESH, qt_all_contacts_changed, NULL /* ? */ );
+		query_connect_id( &qt_plugin, SESSION_CHANGED, qt_all_contacts_changed, (void *) 1 );
+		query_connect_id( &qt_plugin, SESSION_EVENT, qt_all_contacts_changed, NULL );
+		query_connect_id( &qt_plugin, METACONTACT_ADDED, qt_all_contacts_changed, NULL );
+		query_connect_id( &qt_plugin, METACONTACT_REMOVED, qt_all_contacts_changed, NULL );
+		query_connect_id( &qt_plugin, METACONTACT_ITEM_ADDED, qt_all_contacts_changed, NULL );
+		query_connect_id( &qt_plugin, METACONTACT_ITEM_REMOVED, qt_all_contacts_changed, NULL );
+		query_connect_id( &qt_plugin, USERLIST_CHANGED, qt_all_contacts_changed, NULL );
+		query_connect_id( &qt_plugin, USERLIST_ADDED, qt_all_contacts_changed, NULL );
+		query_connect_id( &qt_plugin, USERLIST_REMOVED, qt_all_contacts_changed, NULL );
+		query_connect_id( &qt_plugin, USERLIST_RENAMED, qt_all_contacts_changed, NULL );
+
+
 		#ifdef QT_DEBUG
 			command_exec( NULL, NULL, "/plugin +irc", 0 );
 			command_exec( NULL, NULL, "/session -a irc:ircnet", 0 );
@@ -216,6 +239,7 @@ extern "C" {
 			command_exec( NULL, NULL, "/session server warszawa.irc.pl", 0 );
 			command_exec( NULL, NULL, "/session port 6667", 0 );
 			command_exec( NULL, NULL, "/connect", 0 );
+			command_exec( NULL, NULL, "/j #ekg2", 0 );
 			command_exec( NULL, NULL, "/set save_quit 0", 0 );
 			command_exec( NULL, NULL, "/window new", 0 );
 			command_exec( NULL, NULL, "/window new", 0 );

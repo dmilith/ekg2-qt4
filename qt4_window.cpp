@@ -58,7 +58,17 @@ Qt4Plugin::get_current_window() {
 void
 Qt4Plugin::new_window() {
 	command_exec( NULL, NULL, "/window new", 0 );
-	set_current_window( tabs->currentIndex() );
+	QWidget *window = new QWidget();
+	tabs->addTab( window, QString("#ekg2") ); // XXX: should be contact / chan name
+	set_current_window( get_current_window() + 1 );
+	tabs->setCurrentIndex( get_current_window() );
+
+	QTextBrowser *window_content = new QTextBrowser( window );
+	window_content->setObjectName(QString::fromUtf8("qt_debug_window"));
+	window_content->setGeometry(QRect(0, 0, 621, 431));
+	window_content->setAutoFillBackground(true);
+	window_content->setAutoFormatting(QTextEdit::AutoAll);
+
 }
 
 void
@@ -106,6 +116,7 @@ Qt4Plugin::enable_debug_window() {
 		tabs->setTabEnabled( 0, false );
 	} else {
 		tabs->setTabEnabled( 0, true );
+		tabs->setCurrentIndex( 0 );
 	}
 }
 
@@ -120,14 +131,40 @@ Qt4Plugin::clear_current_window() {
 	//( tabs->currentIndex() )->clear();
 }
 
+const char*
+Qt4Plugin::get_current_window_name() {
+	return tabs->tabText( tabs->currentIndex() ).toLatin1();
+}
+
 void
 Qt4Plugin::qt_entry_command_exec() {
+	session_t *s;
+	userlist_t *ul;
+	//if (!session_current)
+	//	return;
+	s = session_current;
+
+	for (ul = s->userlist; ul; ul = ul->next) {
+		userlist_t *u = ul;
+		qt_userlist->addItem( QString( u->uid ) );
+	}
+
 	QString command = qt_entry->text();
-	command_exec( NULL, NULL, command.toUtf8(), 0 );
+	if ( command[0] == '/' ) { // command
+		command_exec( NULL, NULL, command.toUtf8(), 0 );
+	} else {
+		const char* temp = get_current_window_name();
+		if ( strcmp( temp,"dbg" ) ) return;
+		if ( strcmp( temp,"status" ) ) return;
+		command_exec( temp, s, command.toUtf8(), 0 );
+		// TODO: normal typing
+	}
 	qt_entry->clear();
 }
 
+
 /*
+// TODO: make buffer for last commands
 void
 Qt4Plugin::qt_entry_command_previous() {
 //	Qt::Key_Up

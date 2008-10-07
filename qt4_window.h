@@ -21,6 +21,7 @@
 #include <QtCore/QQueue>
 #include <QtGui/QSlider>
 
+#include "ekg2_includes.h"
 #include "qtplugin_config.h"
 #include "ui_ekg2_qt4.h"
 #include "qt4_config_window.h"
@@ -35,11 +36,12 @@ namespace Ui {
     Q_OBJECT
 
     public:
-      Qt4Plugin( const QString& title = "dSipCom" );
+      Qt4Plugin( const QString& title = "Ekg2" );
      ~Qt4Plugin();
      
 	  	void set_current_window( int value );
 		int get_current_window();
+		const char* get_current_window_name();
 
 		// init qt4 actions (ui slots and signals)
       void init_actions();
