@@ -37,7 +37,15 @@ Qt4Plugin::~Qt4Plugin() {
 
 void // resizeEvent is executed when window will be resized
 Qt4Plugin::resizeEvent( QResizeEvent * event ) {
+	event = NULL;
 	auto_resize();
+}
+
+void
+Qt4Plugin::keyPressEvent( QKeyEvent * event ) {
+	if ( event->key() == Qt::Key_Up ) {
+		qt_entry->setText( "ZŁo!" );
+	}
 }
 
 void // auto_resize will resize all window widgets for actual MainWindow size.
@@ -113,7 +121,7 @@ Qt4Plugin::new_window() { //DEBUG action ofcourse.. it should be done automatica
 //	window_content->objectName().append( "New window" );
 
 	retranslateUi( this );
-	update(); // don't forget to update window!
+	auto_resize();
 }
 
 void

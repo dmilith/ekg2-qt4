@@ -20,6 +20,7 @@
 #include <QtGui/QMessageBox>
 #include <QtCore/QQueue>
 #include <QtGui/QSlider>
+#include <QKeyEvent>
 
 #include "ekg2_includes.h"
 #include "qtplugin_config.h"
@@ -39,12 +40,15 @@ namespace Ui {
       Qt4Plugin( const QString& title = "Ekg2" );
      ~Qt4Plugin();
      
+	  	// used when window is resized
 	  	virtual void resizeEvent( QResizeEvent * event );
+		// used when key event
+		virtual void keyPressEvent( QKeyEvent * event );
+
+		// init qt4 actions (ui slots and signals)
 	  	void set_current_window( int value );
 		int get_current_window();
 		const char* get_current_window_name();
-
-		// init qt4 actions (ui slots and signals)
       void init_actions();
 		bool is_alive();
 		void auto_resize();
