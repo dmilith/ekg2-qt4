@@ -185,7 +185,7 @@ extern "C" {
 		main_obj->qt_userlist->clear(); // will prevent from multiple loading on list
 		for ( ul = s->userlist; ul; ul = ul->next ) {
 			userlist_t *u = ul;
-			main_obj->qt_userlist->addItem( QString( u->nickname ) );
+			main_obj->qt_userlist->addItem( " " +  QString( u->nickname ) + " (" + QString( u->descr ) + ") " );
 		}
 		return 0;
 	}
@@ -197,8 +197,6 @@ extern "C" {
 		main_obj = new Qt4Plugin( "Ekg2" );
 		// two tabs are static: qt_debug_window and qt_status_window. They cannot be closed (so far).
 		main_obj->tabs->setTabEnabled( 0, false ); // tab[0] will always be debug window
-	//	main_obj->qt_debug_window->append("Ui: Plugin initialized.");
-
 		query_connect_id( &qt_plugin, UI_IS_INITIALIZED, qt_ui_is_initialized, NULL );
 		query_connect_id( &qt_plugin, UI_LOOP, qt_plugin_loop, NULL );
 		query_connect_id( &qt_plugin, SET_VARS_DEFAULT, qt_setvar_default, NULL );

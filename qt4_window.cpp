@@ -147,8 +147,8 @@ Qt4Plugin::new_window( const QString& target ) { //DEBUG action ofcourse.. it sh
 			}
 		}
 	
-	QString cmd = "/query " + target; //current_window_number;
-	command_exec( current_window_number.toLatin1(), s, cmd.toLatin1(), 0 );
+	//QString cmd = "/query " + target; //current_window_number;
+	//command_exec( current_window_number.toLatin1(), s, cmd.toLatin1(), 0 );
 	
 		QWidget *window = new QWidget();
 		tabs->addTab( window, current_window_number + ":" + current_window_name );
