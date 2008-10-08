@@ -36,6 +36,11 @@ Qt4Plugin::~Qt4Plugin() {
 }
 
 void
+Qt4Plugin::resizeEvent( QResizeEvent * event ) {
+	auto_resize();
+}
+
+void
 Qt4Plugin::auto_resize() {
 	int qt_userlist_size = 190;
 	qt_userlist->setGeometry( this->width() - qt_userlist_size - 10, 10, qt_userlist_size, this->height() - 35 );

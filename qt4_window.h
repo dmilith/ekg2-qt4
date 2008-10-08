@@ -39,6 +39,7 @@ namespace Ui {
       Qt4Plugin( const QString& title = "Ekg2" );
      ~Qt4Plugin();
      
+	  	virtual void resizeEvent( QResizeEvent * event );
 	  	void set_current_window( int value );
 		int get_current_window();
 		const char* get_current_window_name();
