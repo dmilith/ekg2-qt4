@@ -68,7 +68,18 @@ extern "C" {
 		wchar_t* z = line->str.w;
 		main_obj->qt_debug_window->append( "Ui: Window print." );
 		main_obj->tabs->setCurrentIndex( main_obj->tabs->currentIndex() );
-		main_obj->qt_status_window->append( QString::fromUtf8( (char*)z ).toUtf8() ); // XXX
+		main_obj->current_window_number = QString::number( main_obj->tabs->currentIndex() );
+
+		QList<QTextBrowser *> all_browsers = main_obj->tabs->findChildren<QTextBrowser *>();
+		while ( !all_browsers.empty() ) { // find all text browsers and look for one with specified name
+			if ( ( (QTextBrowser*)all_browsers[ all_browsers.count() - 1 ] )->objectName() == main_obj->current_window_number ) {
+				( ( QTextBrowser*)all_browsers.takeLast() )->append( 
+					QString::fromUtf8( (char*)z ).toUtf8() ); // XXX
+			} else {
+				main_obj->qt_status_window->append( QString::fromUtf8( (char*)z ).toUtf8() );
+				all_browsers.takeLast();
+			}
+		}
 		return 0;
 	}
 
@@ -213,16 +224,6 @@ extern "C" {
 		query_connect_id( &qt_plugin, USERLIST_ADDED, qt_all_contacts_changed, NULL );
 		query_connect_id( &qt_plugin, USERLIST_REMOVED, qt_all_contacts_changed, NULL );
 		query_connect_id( &qt_plugin, USERLIST_RENAMED, qt_all_contacts_changed, NULL );
-		#ifdef QT_DEBUG
-			command_exec( NULL, NULL, "/plugin +irc", 0 );
-			command_exec( NULL, NULL, "/session -a irc:ircnet", 0 );
-			command_exec( NULL, NULL, "/session nickname qtdmil", 0 );
-			command_exec( NULL, NULL, "/session server warszawa.irc.pl", 0 );
-			command_exec( NULL, NULL, "/session port 6667", 0 );
-			command_exec( NULL, NULL, "/connect", 0 );
-			command_exec( NULL, NULL, "/j #ekg2", 0 );
-			command_exec( NULL, NULL, "/set save_quit 0", 0 );
-		#endif
 		return 0;
 	}
 

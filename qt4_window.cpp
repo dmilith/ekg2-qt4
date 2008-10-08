@@ -16,6 +16,7 @@ Qt4Plugin::Qt4Plugin( const QString& title ) {
 	setupUi( this );
 	config_window = NULL;
 	current_command = 0; // index of first element on list
+	//current_window_number = "1";
 	command_buffer << ""; // to have one empty element
 	set_current_window( 1 ); // 0 -> debug window, 1 -> status window
 	QTextCodec::setCodecForCStrings( QTextCodec::codecForName( "UTF-8" ) );
@@ -23,6 +24,7 @@ Qt4Plugin::Qt4Plugin( const QString& title ) {
 	flags = Qt::Window | Qt::WindowMinimizeButtonHint | Qt::WindowStaysOnTopHint;
 	setWindowFlags( flags );
 	setWindowTitle( title );
+	qt_entry->setFocus();
 	init_actions();
 
 	// TODO: assign shortcuts
@@ -44,9 +46,17 @@ Qt4Plugin::resizeEvent( QResizeEvent * event ) {
 	auto_resize();
 }
 
+/*
+bool
+Qt4Plugin::event( QEvent *event ) {
+	if ( event->type() == QEvent::Enter ) {
+	}
+}*/
+
 void
 Qt4Plugin::keyPressEvent( QKeyEvent * event ) {
 	if ( !command_buffer.empty() ) {
+		
 		// previous command:
 		if ( event->key() == Qt::Key_Up ) {
 			if ( current_command < command_buffer.count() - 1 ) {
@@ -57,6 +67,7 @@ Qt4Plugin::keyPressEvent( QKeyEvent * event ) {
 				qt_entry->setText( command_buffer[ command_buffer.count() - 1 ] );
 			}
 		}
+
 		// next command:
 		if ( event->key() == Qt::Key_Down ) {
 			if ( current_command > 0 ) {
@@ -67,14 +78,14 @@ Qt4Plugin::keyPressEvent( QKeyEvent * event ) {
 				qt_entry->setText( command_buffer[ 0 ] );
 			}
 		}
-
+	}
 		if ( event->key() == Qt::Key_Escape ) {
 			qt_entry->clear();
 		}
+
 		if ( event->key() == Qt::Key_Tab ) { // this is not working, tab is used for different action that's why it's C-Tab not Tab
 			qt_entry->setText( "/" );
 		}
-	}
 }
 
 void // auto_resize will resize all window widgets for actual MainWindow size.
@@ -126,15 +137,15 @@ Qt4Plugin::new_window() { //DEBUG action ofcourse.. it should be done automatica
 		return;
 	s = session_current;
 	
-	QString window_number =  QString::number( tabs->count() + 1, 10 );
-	QString window_name = "win"; // XXX: here should be nick/uid/id of user/chan name
-	QString cmd = "/window new " + window_number;
-	command_exec( window_number.toLatin1(), s, cmd.toLatin1(), 0 );
+	current_window_number = QString::number( tabs->count(), 10 );
+	current_window_name = "win"; // XXX: here should be nick/uid/id of user/chan name
+	QString cmd = "/window new " + current_window_number;
+	command_exec( current_window_number.toLatin1(), s, cmd.toLatin1(), 0 );
 
 	QWidget *window = new QWidget();
-	tabs->addTab( window, window_number + ":" + window_name );
+	tabs->addTab( window, current_window_number + ":" + current_window_name );
 
-	window_t *w = window_find( ( window_number + window_name ).toLatin1() );
+	window_t *w = window_find( ( current_window_number + ":" + current_window_name ).toLatin1() );
 	query_emit_id( NULL, UI_WINDOW_NEW, &w );
 	
 	set_current_window( get_current_window() + 1 );
@@ -142,7 +153,7 @@ Qt4Plugin::new_window() { //DEBUG action ofcourse.. it should be done automatica
 
 	// XXX FIXME This below seems to not work well ;}
 	QTextBrowser *window_content = new QTextBrowser( window );
-	window_content->setObjectName( window_number );
+	window_content->setObjectName( current_window_number );
 	window_content->setGeometry(QRect(0, 0, 621, 431));
 	window_content->setAutoFillBackground(true);
 	window_content->setAutoFormatting(QTextEdit::AutoAll);
@@ -212,9 +223,9 @@ Qt4Plugin::clear_current_window() {
 	//( tabs->currentIndex() )->clear();
 }
 
-const char*
-Qt4Plugin::get_current_window_name() {
-	return tabs->tabText( tabs->currentIndex() ).toLatin1();
+QString
+Qt4Plugin::get_current_tab_name() {
+	return tabs->tabText( tabs->currentIndex() );
 }
 
 void
@@ -224,6 +235,7 @@ Qt4Plugin::qt_entry_command_exec() {
 	if ( !session_current )
 		return;
 	s = session_current;
+	qt_userlist->clear(); // will prevent from multiple loading on list
 	for ( ul = s->userlist; ul; ul = ul->next ) {
 		userlist_t *u = ul;
 		qt_userlist->addItem( QString( u->nickname ) );
@@ -231,29 +243,13 @@ Qt4Plugin::qt_entry_command_exec() {
 
 	QString command = qt_entry->text();
 	command_buffer.append( command ); // add command/ text to command buffer
-	const char* temp = get_current_window_name();
+	QString temp = get_current_tab_name();
 	if ( command[0] == '/' ) { // command
-		command_exec( temp, s, command.toUtf8(), 0 );
+		command_exec( temp.toLatin1(), s, command.toUtf8(), 0 );
 	} else {
-		if ( strcmp( temp, "dbg" ) ) return;
-		if ( strcmp( temp, "status" ) ) return;
-		command_exec( temp, s, command.toUtf8(), 0 );
-		// TODO: normal typing
+		if ( ( temp == (QString)"dbg" ) || ( temp == (QString)"status" ) ) return;
+		command_exec( temp.toLatin1(), s, command.toUtf8(), 0 );
 	}
 	qt_entry->clear();
-	// XXX: should be done automatically while resizing window
-	auto_resize();
 }
-
-
-/*
-// TODO: make buffer for last commands
-void
-Qt4Plugin::qt_entry_command_previous() {
-//	Qt::Key_Up
-	QString command = qt_entry->text();
-	command_exec( NULL, NULL, command.toUtf8(), 0 );
-	qt_entry->clear();
-}
-*/
 

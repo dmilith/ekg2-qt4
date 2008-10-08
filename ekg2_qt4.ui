@@ -254,13 +254,6 @@
      <bool>true</bool>
     </property>
    </widget>
-   <zorder>qt_entry</zorder>
-   <zorder>tabs</zorder>
-   <zorder>qt_userlist</zorder>
-   <zorder>lineEdit</zorder>
-   <zorder>commandLinkButton</zorder>
-   <zorder>qt_status</zorder>
-   <zorder>qt_topic</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar" >
    <property name="geometry" >

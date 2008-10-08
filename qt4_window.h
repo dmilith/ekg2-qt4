@@ -19,6 +19,7 @@
 #include <QMessageBox>
 #include <QQueue>
 #include <QSlider>
+#include <QEvent>
 #include <QKeyEvent>
 
 #include "ekg2_includes.h"
@@ -43,17 +44,20 @@ namespace Ui {
 	  	virtual void resizeEvent( QResizeEvent * event );
 		// used when key event
 		virtual void keyPressEvent( QKeyEvent * event );
+//		virtual bool event( QEvent * event );
 
 		// init qt4 actions (ui slots and signals)
 	  	void set_current_window( int value );
 		int get_current_window();
-		const char* get_current_window_name();
+		QString get_current_tab_name();
       void init_actions();
 		bool is_alive();
 		void auto_resize();
 		
 		// variables
 		QList<QString> command_buffer;
+		QString current_window_number;
+		QString current_window_name;
       
     private:
 	 	Qt4Config *config_window;
