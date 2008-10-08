@@ -42,7 +42,7 @@
      </size>
     </property>
     <property name="focusPolicy" >
-     <enum>Qt::StrongFocus</enum>
+     <enum>Qt::WheelFocus</enum>
     </property>
     <property name="autoFillBackground" >
      <bool>true</bool>
@@ -55,6 +55,9 @@
     </property>
     <property name="alignment" >
      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+    </property>
+    <property name="dragEnabled" >
+     <bool>true</bool>
     </property>
    </widget>
    <widget class="QTabWidget" name="tabs" >
@@ -194,6 +197,9 @@
     </property>
    </widget>
    <widget class="QLineEdit" name="qt_topic" >
+    <property name="enabled" >
+     <bool>true</bool>
+    </property>
     <property name="geometry" >
      <rect>
       <x>0</x>
@@ -201,6 +207,9 @@
       <width>631</width>
       <height>31</height>
      </rect>
+    </property>
+    <property name="focusPolicy" >
+     <enum>Qt::NoFocus</enum>
     </property>
     <property name="locale" >
      <locale country="Poland" language="Polish" />
@@ -210,6 +219,9 @@
     </property>
    </widget>
    <widget class="QLineEdit" name="qt_status" >
+    <property name="enabled" >
+     <bool>true</bool>
+    </property>
     <property name="geometry" >
      <rect>
       <x>0</x>
@@ -230,8 +242,16 @@
       <height>200</height>
      </size>
     </property>
+    <property name="font" >
+     <font>
+      <kerning>true</kerning>
+     </font>
+    </property>
     <property name="focusPolicy" >
      <enum>Qt::ClickFocus</enum>
+    </property>
+    <property name="acceptDrops" >
+     <bool>true</bool>
     </property>
    </widget>
    <zorder>qt_entry</zorder>

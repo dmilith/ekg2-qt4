@@ -20,7 +20,6 @@
 #include <QQueue>
 #include <QSlider>
 #include <QKeyEvent>
-#include <QAbstractItemView>
 
 #include "ekg2_includes.h"
 #include "qtplugin_config.h"

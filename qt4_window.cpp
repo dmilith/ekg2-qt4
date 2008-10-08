@@ -71,9 +71,8 @@ Qt4Plugin::keyPressEvent( QKeyEvent * event ) {
 		if ( event->key() == Qt::Key_Escape ) {
 			qt_entry->clear();
 		}
-		if ( event->key() == Qt::Key_Tab ) {
+		if ( event->key() == Qt::Key_Tab ) { // this is not working, tab is used for different action that's why it's C-Tab not Tab
 			qt_entry->setText( "/" );
-			qt_entry->setFocus();
 		}
 	}
 }
@@ -231,7 +230,7 @@ Qt4Plugin::qt_entry_command_exec() {
 	}
 
 	QString command = qt_entry->text();
-	command_buffer.append( command ); // add command to command buffer. FIXME: should get only valid commands
+	command_buffer.append( command ); // add command/ text to command buffer
 	const char* temp = get_current_window_name();
 	if ( command[0] == '/' ) { // command
 		command_exec( temp, s, command.toUtf8(), 0 );
