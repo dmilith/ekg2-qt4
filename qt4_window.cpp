@@ -15,6 +15,8 @@ using namespace std;
 Qt4Plugin::Qt4Plugin( const QString& title ) {
 	setupUi( this );
 	config_window = NULL;
+	current_command = 0; // index of first element on list
+	command_buffer << ""; // to have one empty element
 	set_current_window( 1 ); // 0 -> debug window, 1 -> status window
 	QTextCodec::setCodecForCStrings( QTextCodec::codecForName( "UTF-8" ) );
 	Qt::WindowFlags flags;
@@ -22,7 +24,8 @@ Qt4Plugin::Qt4Plugin( const QString& title ) {
 	setWindowFlags( flags );
 	setWindowTitle( title );
 	init_actions();
-	//assign shortcuts
+
+	// TODO: assign shortcuts
 /*	setShortcut( "1", "Alt+1", 0, QApplication::UnicodeUTF8 );
 	setShortcut( "2", "Alt+2", 0, QApplication::UnicodeUTF8 );
 	setShortcut( "0", "Alt+0", 0, QApplication::UnicodeUTF8 );
@@ -43,8 +46,35 @@ Qt4Plugin::resizeEvent( QResizeEvent * event ) {
 
 void
 Qt4Plugin::keyPressEvent( QKeyEvent * event ) {
-	if ( event->key() == Qt::Key_Up ) {
-		qt_entry->setText( "ZŁo!" );
+	if ( !command_buffer.empty() ) {
+		// previous command:
+		if ( event->key() == Qt::Key_Up ) {
+			if ( current_command < command_buffer.count() - 1 ) {
+				current_command++;
+				qt_entry->setText( command_buffer[ current_command ] );
+			} else {
+				current_command = 0; //command_buffer.count() - 1;
+				qt_entry->setText( command_buffer[ command_buffer.count() - 1 ] );
+			}
+		}
+		// next command:
+		if ( event->key() == Qt::Key_Down ) {
+			if ( current_command > 0 ) {
+				current_command--;
+				qt_entry->setText( command_buffer[ current_command ] );
+			} else {
+				current_command = command_buffer.count();
+				qt_entry->setText( command_buffer[ 0 ] );
+			}
+		}
+
+		if ( event->key() == Qt::Key_Escape ) {
+			qt_entry->clear();
+		}
+		if ( event->key() == Qt::Key_Tab ) {
+			qt_entry->setText( "/" );
+			qt_entry->setFocus();
+		}
 	}
 }
 
@@ -201,6 +231,7 @@ Qt4Plugin::qt_entry_command_exec() {
 	}
 
 	QString command = qt_entry->text();
+	command_buffer.append( command ); // add command to command buffer. FIXME: should get only valid commands
 	const char* temp = get_current_window_name();
 	if ( command[0] == '/' ) { // command
 		command_exec( temp, s, command.toUtf8(), 0 );

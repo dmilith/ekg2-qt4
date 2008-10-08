@@ -8,19 +8,19 @@
 #ifndef _QT4_WINDOW_H
 #define _QT4_WINDOW_H
 
-#include <QtCore/QProcess>
-#include <QtCore/QCoreApplication>
-#include <QtGui/QApplication>
-#include <QtCore/QLibrary>
-#include <QtCore/QTimer>
-#include <QtCore/Qt>
-#include <QtCore/QFile>
-#include <QtGui/QDialog>
-#include <QtCore/QTextCodec>
-#include <QtGui/QMessageBox>
-#include <QtCore/QQueue>
-#include <QtGui/QSlider>
+#include <QProcess>
+#include <QCoreApplication>
+#include <QApplication>
+#include <QTimer>
+#include <Qt>
+#include <QFile>
+#include <QDialog>
+#include <QTextCodec>
+#include <QMessageBox>
+#include <QQueue>
+#include <QSlider>
 #include <QKeyEvent>
+#include <QAbstractItemView>
 
 #include "ekg2_includes.h"
 #include "qtplugin_config.h"
@@ -39,7 +39,7 @@ namespace Ui {
     public:
       Qt4Plugin( const QString& title = "Ekg2" );
      ~Qt4Plugin();
-     
+
 	  	// used when window is resized
 	  	virtual void resizeEvent( QResizeEvent * event );
 		// used when key event
@@ -52,10 +52,14 @@ namespace Ui {
       void init_actions();
 		bool is_alive();
 		void auto_resize();
+		
+		// variables
+		QList<QString> command_buffer;
       
     private:
 	 	Qt4Config *config_window;
 	 	int current_window;
+		int current_command;
       
     // qt4 action slots
     public slots:
