@@ -1,0 +1,8 @@
+0. Get my plugin ( git clone git://github.com/dmilith/ekg2-qt4.git )
+1. Install Qt4 library with devel packages ( at least 4.4.0 ) - in debian You should install: qt4-dev-tools
+2. Download and install svn version of Ekg2. ( svn co http://toxygen.net/svn/ekg2/trunk ekg2-svn )
+3. Move my plugin to ekg2-svn/plugins/qt folder.
+4. Exec ./Compile_and_install script.
+5. Pray
+6. With problems go to !ekg2 (on ircnet) or #ekg2 (on freenode)
+
