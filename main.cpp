@@ -106,9 +106,12 @@ extern "C" {
 		return 0;
 	}
 	
-	static QUERY( qt_ui_window_act_changed ) {
+	static QUERY( qt_ui_window_act_changed ) { // called when somebody will talk to us.
 		window_t **w = va_arg(ap, window_t **);
+		window_t *win = *w;
+		QString target_name = QString( win->target );
 		main_obj->qt_debug_window->append("Ui: Actual window changed.");
+		main_obj->new_window( target_name );
 		return 0;
 	}
 	
@@ -174,6 +177,16 @@ extern "C" {
 
 	static QUERY( qt_all_contacts_changed ) {
 		main_obj->qt_debug_window->append("Ui: Userlist changed.");
+		session_t *s;
+		userlist_t *ul;
+		if ( !session_current )
+			return 0;
+		s = session_current;
+		main_obj->qt_userlist->clear(); // will prevent from multiple loading on list
+		for ( ul = s->userlist; ul; ul = ul->next ) {
+			userlist_t *u = ul;
+			main_obj->qt_userlist->addItem( QString( u->nickname ) );
+		}
 		return 0;
 	}
 

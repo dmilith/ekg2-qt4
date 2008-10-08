@@ -111,7 +111,7 @@ Qt4Plugin::init_actions() {
 	QObject::connect( action_clear_current_window, SIGNAL( activated() ), this, SLOT( clear_current_window() ));
 	QObject::connect( action_enable_debug_window, SIGNAL( activated() ), this, SLOT( enable_debug_window() ));
 
-	QObject::connect( action_new_window, SIGNAL( activated() ), this, SLOT( new_window() ));
+//	QObject::connect( action_new_window, SIGNAL( activated() ), this, SLOT( new_window() ));
 	QObject::connect( action_kill_window, SIGNAL( activated() ), this, SLOT( kill_window() ));
 	QObject::connect( action_previous_window, SIGNAL( activated() ), this, SLOT( previous_window() ));
 	QObject::connect( action_next_window, SIGNAL( activated() ), this, SLOT( next_window() ));
@@ -131,34 +131,42 @@ Qt4Plugin::get_current_window() {
 }
 
 void
-Qt4Plugin::new_window() { //DEBUG action ofcourse.. it should be done automatically
+Qt4Plugin::new_window( const QString& target ) { //DEBUG action ofcourse.. it should be done automatically
 	session_t *s;
 	if (!session_current)
 		return;
 	s = session_current;
 	
 	current_window_number = QString::number( tabs->count(), 10 );
-	current_window_name = "win"; // XXX: here should be nick/uid/id of user/chan name
-	QString cmd = "/window new " + current_window_number;
-	command_exec( current_window_number.toLatin1(), s, cmd.toLatin1(), 0 );
+	current_window_name = target; // XXX: here should be nick/uid/id of user/chan name
 
-	QWidget *window = new QWidget();
-	tabs->addTab( window, current_window_number + ":" + current_window_name );
-
-	window_t *w = window_find( ( current_window_number + ":" + current_window_name ).toLatin1() );
-	query_emit_id( NULL, UI_WINDOW_NEW, &w );
+		// looking for tabs with such name
+		for ( int i = 0; i < tabs->count() - 1; i++ ) {
+			if ( tabs->tabText( i ).section( ':', 1 ) == target ) {
+				return;
+			}
+		}
 	
-	set_current_window( get_current_window() + 1 );
-	tabs->setCurrentIndex( get_current_window() );
+	QString cmd = "/query " + target; //current_window_number;
+	command_exec( current_window_number.toLatin1(), s, cmd.toLatin1(), 0 );
+	
+		QWidget *window = new QWidget();
+		tabs->addTab( window, current_window_number + ":" + current_window_name );
 
-	// XXX FIXME This below seems to not work well ;}
-	QTextBrowser *window_content = new QTextBrowser( window );
-	window_content->setObjectName( current_window_number );
-	window_content->setGeometry(QRect(0, 0, 621, 431));
-	window_content->setAutoFillBackground(true);
-	window_content->setAutoFormatting(QTextEdit::AutoAll);
-	window_content->show();
-//	window_content->objectName().append( "New window" );
+		window_t *w = window_find( ( current_window_number + ":" + current_window_name ).toLatin1() );
+		query_emit_id( NULL, UI_WINDOW_NEW, &w );
+		
+		set_current_window( get_current_window() + 1 );
+		tabs->setCurrentIndex( get_current_window() );
+
+		// XXX FIXME This below seems to not work well ;}
+		QTextBrowser *window_content = new QTextBrowser( window );
+		window_content->setObjectName( current_window_number );
+		window_content->setGeometry(QRect(0, 0, 621, 431));
+		window_content->setAutoFillBackground(true);
+		window_content->setAutoFormatting(QTextEdit::AutoAll);
+		window_content->show();
+	//	window_content->objectName().append( "New window" );
 
 	retranslateUi( this );
 	auto_resize();
@@ -231,16 +239,17 @@ Qt4Plugin::get_current_tab_name() {
 void
 Qt4Plugin::qt_entry_command_exec() {
 	session_t *s;
-	userlist_t *ul;
+	/* userlist_t *ul; */
 	if ( !session_current )
 		return;
 	s = session_current;
+	/*
 	qt_userlist->clear(); // will prevent from multiple loading on list
 	for ( ul = s->userlist; ul; ul = ul->next ) {
 		userlist_t *u = ul;
 		qt_userlist->addItem( QString( u->nickname ) );
 	}
-
+	*/
 	QString command = qt_entry->text();
 	command_buffer.append( command ); // add command/ text to command buffer
 	QString temp = get_current_tab_name();
@@ -248,6 +257,8 @@ Qt4Plugin::qt_entry_command_exec() {
 		command_exec( temp.toLatin1(), s, command.toUtf8(), 0 );
 	} else {
 		if ( ( temp == (QString)"dbg" ) || ( temp == (QString)"status" ) ) return;
+		// XXX FIXME TODO: should check session here (?):
+		command.insert( 0, QString( "/query " ) + temp.section( ':', 1 ) + " " );
 		command_exec( temp.toLatin1(), s, command.toUtf8(), 0 );
 	}
 	qt_entry->clear();

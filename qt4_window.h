@@ -53,6 +53,7 @@ namespace Ui {
       void init_actions();
 		bool is_alive();
 		void auto_resize();
+		void new_window( const QString& target );
 		
 		// variables
 		QList<QString> command_buffer;
@@ -70,11 +71,9 @@ namespace Ui {
 		void enable_debug_window();
 		void clear_current_window();
 		void qt_entry_command_exec();
-		void new_window();
 		void kill_window();
 		void next_window();
 		void previous_window();
-//		void qt_entry_command_previous();
       
     // qt4 action signals
     signals:
