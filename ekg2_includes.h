@@ -1,13 +1,14 @@
 extern "C" {
 
 	#define USINGANANTIQUECOMPILER 1
-	#define QT_NO_PRINTER // XXX: Qt4 API conflict with print()
+//	#define QT_NO_PRINTER // XXX: Qt4 API conflict with print()
 
 	// XXX: C => C++ & ekg2 core compatibility issues:
 	#define strcasestr strcasestr_ekg
 	#define new new_ekg
 	#define class class_ekg
 	#define private private_ekg
+	#define print print_ekg
 
 	#include "ekg2-config.h"
 
@@ -38,6 +39,7 @@ extern "C" {
 
 	#undef new
 	#undef class
+	#undef print
 	#undef private
 	#undef strcasestr
 }

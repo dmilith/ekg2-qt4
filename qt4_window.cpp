@@ -26,11 +26,26 @@ Qt4Plugin::Qt4Plugin( const QString& title ) {
 /*	setShortcut( "1", "Alt+1", 0, QApplication::UnicodeUTF8 );
 	setShortcut( "2", "Alt+2", 0, QApplication::UnicodeUTF8 );
 	setShortcut( "0", "Alt+0", 0, QApplication::UnicodeUTF8 );
-*/	show();
+*/	
+	auto_resize(); // resizes widgets in window for main window size.
+	show();
 }
 
 Qt4Plugin::~Qt4Plugin() {
 	if (config_window) delete config_window;
+}
+
+void
+Qt4Plugin::auto_resize() {
+	int qt_userlist_size = 190;
+	qt_userlist->setGeometry( this->width() - qt_userlist_size - 10, 10, qt_userlist_size, this->height() - 35 );
+	qt_topic->setGeometry( 10, 10, this->width() - qt_userlist->width() - 30, 30 );
+	qt_entry->setGeometry( 10, this->height() - qt_entry->height() - 15, this->width() - qt_userlist->width() - 35, 35 );
+	qt_status->setGeometry( 10, this->height() - qt_entry->height() - 50, this->width() - qt_userlist->width() - 35, 25 );
+	tabs->setGeometry( 10, 40, this->width() - qt_userlist->width() - 35, this->height() - qt_entry->height() - qt_status->height() - 80 );
+	// XXX: TODO: make list from all QTextBrowser objects and set it to all of them:
+	qt_status_window->setGeometry( 10, 10, tabs->width() - 20, tabs->height() - 50 );
+
 }
 
 void
@@ -44,6 +59,8 @@ Qt4Plugin::init_actions() {
 	QObject::connect( action_kill_window, SIGNAL( activated() ), this, SLOT( kill_window() ));
 	QObject::connect( action_previous_window, SIGNAL( activated() ), this, SLOT( previous_window() ));
 	QObject::connect( action_next_window, SIGNAL( activated() ), this, SLOT( next_window() ));
+
+//	QObject::connect( this, SIGNAL
 
 	//qt command line
 	QObject::connect( qt_entry, SIGNAL( returnPressed() ), this, SLOT( qt_entry_command_exec() ));
@@ -89,7 +106,6 @@ Qt4Plugin::new_window() { //DEBUG action ofcourse.. it should be done automatica
 	window_content->setAutoFormatting(QTextEdit::AutoAll);
 	window_content->show();
 //	window_content->objectName().append( "New window" );
-	
 
 	retranslateUi( this );
 	update(); // don't forget to update window!
@@ -163,26 +179,27 @@ void
 Qt4Plugin::qt_entry_command_exec() {
 	session_t *s;
 	userlist_t *ul;
-	if (!session_current)
+	if ( !session_current )
 		return;
 	s = session_current;
-
-	for (ul = s->userlist; ul; ul = ul->next) {
+	for ( ul = s->userlist; ul; ul = ul->next ) {
 		userlist_t *u = ul;
-		qt_userlist->addItem( QString( u->uid ) );
+		qt_userlist->addItem( QString( u->nickname ) );
 	}
 
 	QString command = qt_entry->text();
+	const char* temp = get_current_window_name();
 	if ( command[0] == '/' ) { // command
-		command_exec( NULL, NULL, command.toUtf8(), 0 );
+		command_exec( temp, s, command.toUtf8(), 0 );
 	} else {
-		const char* temp = get_current_window_name();
-		if ( strcmp( temp,"dbg" ) ) return;
-		if ( strcmp( temp,"status" ) ) return;
+		if ( strcmp( temp, "dbg" ) ) return;
+		if ( strcmp( temp, "status" ) ) return;
 		command_exec( temp, s, command.toUtf8(), 0 );
 		// TODO: normal typing
 	}
 	qt_entry->clear();
+	// XXX: should be done automatically while resizing window
+	auto_resize();
 }
 
 

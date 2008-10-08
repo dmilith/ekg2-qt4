@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>833</width>
-    <height>572</height>
+    <width>1037</width>
+    <height>669</height>
    </rect>
   </property>
   <property name="sizePolicy" >
@@ -24,9 +24,9 @@
     <property name="geometry" >
      <rect>
       <x>0</x>
-      <y>490</y>
+      <y>520</y>
       <width>631</width>
-      <height>41</height>
+      <height>31</height>
      </rect>
     </property>
     <property name="sizePolicy" >
@@ -35,11 +35,23 @@
       <verstretch>0</verstretch>
      </sizepolicy>
     </property>
+    <property name="sizeIncrement" >
+     <size>
+      <width>300</width>
+      <height>200</height>
+     </size>
+    </property>
     <property name="focusPolicy" >
-     <enum>Qt::WheelFocus</enum>
+     <enum>Qt::StrongFocus</enum>
+    </property>
+    <property name="autoFillBackground" >
+     <bool>true</bool>
     </property>
     <property name="locale" >
      <locale country="Poland" language="Polish" />
+    </property>
+    <property name="frame" >
+     <bool>true</bool>
     </property>
     <property name="alignment" >
      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
@@ -49,10 +61,13 @@
     <property name="geometry" >
      <rect>
       <x>0</x>
-      <y>10</y>
+      <y>30</y>
       <width>631</width>
-      <height>471</height>
+      <height>451</height>
      </rect>
+    </property>
+    <property name="focusPolicy" >
+     <enum>Qt::NoFocus</enum>
     </property>
     <property name="autoFillBackground" >
      <bool>true</bool>
@@ -76,7 +91,7 @@
         <x>0</x>
         <y>0</y>
         <width>621</width>
-        <height>431</height>
+        <height>411</height>
        </rect>
       </property>
       <property name="font" >
@@ -103,7 +118,7 @@
         <x>0</x>
         <y>0</y>
         <width>621</width>
-        <height>431</height>
+        <height>411</height>
        </rect>
       </property>
       <property name="font" >
@@ -112,11 +127,23 @@
         <pointsize>9</pointsize>
        </font>
       </property>
+      <property name="focusPolicy" >
+       <enum>Qt::NoFocus</enum>
+      </property>
       <property name="autoFillBackground" >
        <bool>true</bool>
       </property>
+      <property name="locale" >
+       <locale country="Poland" language="Polish" />
+      </property>
       <property name="autoFormatting" >
        <set>QTextEdit::AutoAll</set>
+      </property>
+      <property name="tabChangesFocus" >
+       <bool>false</bool>
+      </property>
+      <property name="openExternalLinks" >
+       <bool>true</bool>
       </property>
      </widget>
     </widget>
@@ -124,20 +151,103 @@
    <widget class="QListWidget" name="qt_userlist" >
     <property name="geometry" >
      <rect>
-      <x>640</x>
-      <y>10</y>
+      <x>720</x>
+      <y>30</y>
       <width>191</width>
-      <height>521</height>
+      <height>541</height>
      </rect>
     </property>
+    <property name="font" >
+     <font>
+      <family>Monospace</family>
+      <pointsize>7</pointsize>
+      <weight>50</weight>
+      <bold>false</bold>
+     </font>
+    </property>
+    <property name="focusPolicy" >
+     <enum>Qt::NoFocus</enum>
+    </property>
+    <property name="autoFillBackground" >
+     <bool>true</bool>
+    </property>
+    <property name="locale" >
+     <locale country="Poland" language="Polish" />
+    </property>
+    <property name="alternatingRowColors" >
+     <bool>true</bool>
+    </property>
+    <property name="selectionMode" >
+     <enum>QAbstractItemView::SingleSelection</enum>
+    </property>
+    <property name="movement" >
+     <enum>QListView::Static</enum>
+    </property>
+    <property name="isWrapping" stdset="0" >
+     <bool>false</bool>
+    </property>
+    <property name="resizeMode" >
+     <enum>QListView::Adjust</enum>
+    </property>
+    <property name="selectionRectVisible" >
+     <bool>true</bool>
+    </property>
    </widget>
+   <widget class="QLineEdit" name="qt_topic" >
+    <property name="geometry" >
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>631</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="locale" >
+     <locale country="Poland" language="Polish" />
+    </property>
+    <property name="readOnly" >
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="qt_status" >
+    <property name="geometry" >
+     <rect>
+      <x>0</x>
+      <y>490</y>
+      <width>631</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="sizePolicy" >
+     <sizepolicy vsizetype="Expanding" hsizetype="Expanding" >
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
+    </property>
+    <property name="sizeIncrement" >
+     <size>
+      <width>200</width>
+      <height>200</height>
+     </size>
+    </property>
+    <property name="focusPolicy" >
+     <enum>Qt::ClickFocus</enum>
+    </property>
+   </widget>
+   <zorder>qt_entry</zorder>
+   <zorder>tabs</zorder>
+   <zorder>qt_userlist</zorder>
+   <zorder>lineEdit</zorder>
+   <zorder>commandLinkButton</zorder>
+   <zorder>qt_status</zorder>
+   <zorder>qt_topic</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar" >
    <property name="geometry" >
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>833</width>
+     <width>1037</width>
      <height>23</height>
     </rect>
    </property>
@@ -282,8 +392,26 @@
    </property>
   </action>
  </widget>
+ <layoutdefault spacing="6" margin="9" />
  <layoutfunction spacing="0.2" margin="0.2" />
  <includes/>
  <resources/>
  <connections/>
+ <designerdata>
+  <property name="gridDeltaX" >
+   <number>10</number>
+  </property>
+  <property name="gridDeltaY" >
+   <number>10</number>
+  </property>
+  <property name="gridSnapX" >
+   <bool>true</bool>
+  </property>
+  <property name="gridSnapY" >
+   <bool>true</bool>
+  </property>
+  <property name="gridVisible" >
+   <bool>true</bool>
+  </property>
+ </designerdata>
 </ui>

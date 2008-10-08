@@ -46,6 +46,7 @@ namespace Ui {
 		// init qt4 actions (ui slots and signals)
       void init_actions();
 		bool is_alive();
+		void auto_resize();
       
     private:
 	 	Qt4Config *config_window;

@@ -230,7 +230,7 @@ extern "C" {
 		if ( lib ) delete lib;
     	plugin_unregister( &qt_plugin );
 		#ifdef QT_DEBUG
-			cout << "DEBUG: main_obj deletedTrying to quit.." << flush;
+			cout << "DEBUG: main_obj deleted.\n" << flush;
 		#endif
 		ekg_exit(); // XXX: shouldn't be here, It should be done automagically, but without it ekg2 segvs
    	return 0;
