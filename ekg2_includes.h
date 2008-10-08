@@ -1,3 +1,13 @@
+/*
+ * author: Daniel (dmilith) Dettlaff
+ * email: dmilith at drakor.eu
+ * released under GPLv2 license
+ * © 2oo8
+ */
+
+#ifndef _EKG2_INCLUDES_H
+#define _EKG2_INCLUDES_H
+
 extern "C" {
 
 	#define USINGANANTIQUECOMPILER 1
@@ -43,4 +53,6 @@ extern "C" {
 	#undef private
 	#undef strcasestr
 }
+
+#endif
 

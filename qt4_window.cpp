@@ -42,10 +42,13 @@ Qt4Plugin::auto_resize() {
 	qt_topic->setGeometry( 10, 10, this->width() - qt_userlist->width() - 30, 30 );
 	qt_entry->setGeometry( 10, this->height() - qt_entry->height() - 15, this->width() - qt_userlist->width() - 35, 35 );
 	qt_status->setGeometry( 10, this->height() - qt_entry->height() - 50, this->width() - qt_userlist->width() - 35, 25 );
-	tabs->setGeometry( 10, 40, this->width() - qt_userlist->width() - 35, this->height() - qt_entry->height() - qt_status->height() - 80 );
-	// XXX: TODO: make list from all QTextBrowser objects and set it to all of them:
-	qt_status_window->setGeometry( 10, 10, tabs->width() - 20, tabs->height() - 50 );
-
+	tabs->setGeometry( 10, 40, this->width() - qt_userlist->width() - 35, 
+										this->height() - qt_entry->height() - qt_status->height() - 80 );
+	QList<QTextBrowser *> all_browsers = this->findChildren<QTextBrowser *>();
+	while ( !all_browsers.empty() ) { // resize all text browsers (windows) to specified size:
+		( (QTextBrowser*)all_browsers.takeLast() )->setGeometry( 10, 10, tabs->width() - 20, tabs->height() - 50 );
+	}
+	
 }
 
 void
