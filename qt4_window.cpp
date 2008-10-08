@@ -35,12 +35,12 @@ Qt4Plugin::~Qt4Plugin() {
 	if (config_window) delete config_window;
 }
 
-void
+void // resizeEvent is executed when window will be resized
 Qt4Plugin::resizeEvent( QResizeEvent * event ) {
 	auto_resize();
 }
 
-void
+void // auto_resize will resize all window widgets for actual MainWindow size.
 Qt4Plugin::auto_resize() {
 	int qt_userlist_size = 190;
 	qt_userlist->setGeometry( this->width() - qt_userlist_size - 10, 10, qt_userlist_size, this->height() - 35 );
@@ -56,7 +56,7 @@ Qt4Plugin::auto_resize() {
 	
 }
 
-void
+void // initiate interface actions
 Qt4Plugin::init_actions() {
 	QObject::connect( action_exit, SIGNAL( activated() ), this, SLOT( close() ));
 	QObject::connect( action_core_settings, SIGNAL( activated() ), this, SLOT( open_config_window() ));
@@ -68,11 +68,8 @@ Qt4Plugin::init_actions() {
 	QObject::connect( action_previous_window, SIGNAL( activated() ), this, SLOT( previous_window() ));
 	QObject::connect( action_next_window, SIGNAL( activated() ), this, SLOT( next_window() ));
 
-//	QObject::connect( this, SIGNAL
-
 	//qt command line
 	QObject::connect( qt_entry, SIGNAL( returnPressed() ), this, SLOT( qt_entry_command_exec() ));
-//	QObject::connect( qt_entry, SIGNAL( keyPressEvent() ), this, SLOT( qt_entry_command_previous() ));
 }
 
 void
