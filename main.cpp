@@ -24,6 +24,8 @@ char** argv;
 QApplication *lib = NULL;
 static Qt4Plugin *main_obj = NULL;
 
+static int qt_inited;
+
 extern "C" {
 	extern void ekg_exit();
 	extern void ekg_loop();
@@ -32,19 +34,23 @@ extern "C" {
 		while ( main_obj->is_alive() ) {
 			lib->processEvents();
 			ekg_loop();
+			qt_inited = 1;			/* nie wiem gdzie to dac, wyglada ze mozna dac nawet w _init() */
 		}
-		qt_plugin_destroy();
-		return 0;
+		qt_inited = 0;
+		return -1;
 	}
 
 	static QUERY( qt_beep ) {
 		lib->beep();
-		return 0;
+		return -1;
 	}
 
 	static QUERY( qt_ui_is_initialized ) {
-		main_obj->qt_debug_window->append("Ui: Initialized.");
-		return -1;
+		int *inited = va_arg(ap, int *);
+
+		if ((*inited = qt_inited))
+			return -1;
+		return 0;
 	}
 
 	static QUERY( qt_setvar_default ) {
@@ -65,22 +71,11 @@ extern "C" {
 	static QUERY( qt_ui_window_print ) {
 		window_t *w = *(va_arg(ap, window_t **));
 		fstring_t *line = *(va_arg(ap, fstring_t **));
-		wchar_t* z = line->str.w;
+		char* z = line->str.b;
 		main_obj->qt_debug_window->append( "Ui: Window print." );
-		main_obj->tabs->setCurrentIndex( main_obj->tabs->currentIndex() );
-		main_obj->current_window_number = QString::number( main_obj->tabs->currentIndex() );
-
-		QList<QTextBrowser *> all_browsers = main_obj->tabs->findChildren<QTextBrowser *>();
-		while ( !all_browsers.empty() ) {	// find all text browsers and look for one with specified name 
-														// ( here window name name => number )
-			if ( ( (QTextBrowser*)all_browsers[ all_browsers.count() - 1 ] )->objectName() == main_obj->current_window_number ) {
-				( ( QTextBrowser*)all_browsers.takeLast() )->append( QString::fromUtf8( (char*)z ).toUtf8() ); // XXX
-					break;
-			} else {
-				main_obj->qt_status_window->append( QString::fromUtf8( (char*)z ).toUtf8() );
-				all_browsers.takeLast();
-			}
-		}
+		main_obj->tabs->setCurrentIndex( w->id );
+		main_obj->current_window_number = QString::number( w->id ); //main_obj->tabs->currentIndex() );
+		((QTextBrowser*)w->private_ekg)->append( z );
 		return 0;
 	}
 
@@ -144,7 +139,7 @@ extern "C" {
 	}
 
 	static QUERY( qt_statusbar_query ) {
-		window_t *w = *(va_arg(ap, window_t **));
+		// window_t *w = *(va_arg(ap, window_t **));
 		main_obj->qt_debug_window->append( "Ui: Statusbar query." );
 		return 0;
 	}
@@ -238,12 +233,44 @@ extern "C" {
 		query_connect_id( &qt_plugin, USERLIST_ADDED, qt_all_contacts_changed, NULL );
 		query_connect_id( &qt_plugin, USERLIST_REMOVED, qt_all_contacts_changed, NULL );
 		query_connect_id( &qt_plugin, USERLIST_RENAMED, qt_all_contacts_changed, NULL );
+		// inicjalizacja okienek ( kojarzenie okien window_t z okienkami qt )
+		window_t *w;
+		for ( w = windows; w; w = w->next ) {
+			switch ( w->id ) {
+				case 0: // debug
+					w->private_ekg = main_obj->qt_debug_window;
+					break;
+				case 1: // status
+					w->private_ekg = main_obj->qt_status_window;
+					break;
+				default:
+					
+					break;
+			}
+			//w->private = ;
+/*
+			QList<QTextBrowser *> all_browsers = main_obj->tabs->findChildren<QTextBrowser *>();
+			while ( !all_browsers.empty() ) {	// find all text browsers and look for one with specified name 
+															// ( here window name name => number )
+				if ( ( (QTextBrowser*)all_browsers[ all_browsers.count() - 1 ] )->objectName() == QString::number(  ) ) {
+					( ( QTextBrowser*)all_browsers.takeLast() )->append( z ); // XXX
+					break;
+				} else {
+					main_obj->qt_status_window->append( QString::fromUtf8( (char*)z ).toUtf8() );
+					all_browsers.takeLast();
+				}
+			}
+			*/
+		}
 		return 0;
 	}
 
 	int qt_plugin_destroy() {
 		if ( main_obj ) delete main_obj;
 		if ( lib ) delete lib;
+		window_t *w;
+		for (w = windows; w; w = w->next)
+			w->private_ekg = NULL;
     	plugin_unregister( &qt_plugin );
 		#ifdef QT_DEBUG
 			cout << "DEBUG: main_obj deleted.\n" << flush;
