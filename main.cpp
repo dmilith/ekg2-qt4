@@ -184,7 +184,11 @@ extern "C" {
 		main_obj->qt_userlist->clear(); // will prevent from multiple loading on list
 		for ( ul = s->userlist; ul; ul = ul->next ) {
 			userlist_t *u = ul;
-			main_obj->qt_userlist->addItem( " " +  QString( u->nickname ) + " (" + QString( u->descr ) + ") " );
+				if ( QString( u->descr ) != QString( "" ) ) { // got descr?
+					main_obj->qt_userlist->addItem( " " +  QString( u->nickname ) + "\n (" + QString( u->descr ) + ") " );
+				} else { // no descr
+					main_obj->qt_userlist->addItem( " " +  QString( u->nickname ) );
+				}
 		}
 		return 0;
 	}
