@@ -72,9 +72,11 @@ extern "C" {
 
 		QList<QTextBrowser *> all_browsers = main_obj->tabs->findChildren<QTextBrowser *>();
 		while ( !all_browsers.empty() ) { // find all text browsers and look for one with specified name
+			//bool shown = false;
 			if ( ( (QTextBrowser*)all_browsers[ all_browsers.count() - 1 ] )->objectName() == main_obj->current_window_number ) {
 				( ( QTextBrowser*)all_browsers.takeLast() )->append( 
 					QString::fromUtf8( (char*)z ).toUtf8() ); // XXX
+					break;
 			} else {
 				main_obj->qt_status_window->append( QString::fromUtf8( (char*)z ).toUtf8() );
 				all_browsers.takeLast();

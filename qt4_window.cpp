@@ -133,6 +133,7 @@ Qt4Plugin::get_current_window() {
 void
 Qt4Plugin::new_window( const QString& target ) { //DEBUG action ofcourse.. it should be done automatically
 	session_t *s;
+	window_t *w;
 	if (!session_current)
 		return;
 	s = session_current;
@@ -143,17 +144,17 @@ Qt4Plugin::new_window( const QString& target ) { //DEBUG action ofcourse.. it sh
 		// looking for tabs with such name
 		for ( int i = 0; i < tabs->count() - 1; i++ ) {
 			if ( tabs->tabText( i ).section( ':', 1 ) == target ) {
+				// a contact has been found on window "i"
+				set_current_window( ( tabs->tabText( i ).section( ':', 0 ) ).toInt() );
+				tabs->setCurrentIndex( get_current_window() );
 				return;
 			}
 		}
 	
-	//QString cmd = "/query " + target; //current_window_number;
-	//command_exec( current_window_number.toLatin1(), s, cmd.toLatin1(), 0 );
-	
 		QWidget *window = new QWidget();
 		tabs->addTab( window, current_window_number + ":" + current_window_name );
 
-		window_t *w = window_find( ( current_window_number + ":" + current_window_name ).toLatin1() );
+		w = window_find( ( current_window_number + ":" + current_window_name ).toLatin1() );
 		query_emit_id( NULL, UI_WINDOW_NEW, &w );
 		
 		set_current_window( get_current_window() + 1 );
@@ -162,11 +163,9 @@ Qt4Plugin::new_window( const QString& target ) { //DEBUG action ofcourse.. it sh
 		// XXX FIXME This below seems to not work well ;}
 		QTextBrowser *window_content = new QTextBrowser( window );
 		window_content->setObjectName( current_window_number );
-		window_content->setGeometry(QRect(0, 0, 621, 431));
 		window_content->setAutoFillBackground(true);
 		window_content->setAutoFormatting(QTextEdit::AutoAll);
 		window_content->show();
-	//	window_content->objectName().append( "New window" );
 
 	retranslateUi( this );
 	auto_resize();
@@ -228,7 +227,7 @@ Qt4Plugin::open_config_window() {
 
 void
 Qt4Plugin::clear_current_window() {
-	//( tabs->currentIndex() )->clear();
+	// TODO: ( tabs->currentIndex() )->clear();
 }
 
 QString
@@ -239,17 +238,9 @@ Qt4Plugin::get_current_tab_name() {
 void
 Qt4Plugin::qt_entry_command_exec() {
 	session_t *s;
-	/* userlist_t *ul; */
 	if ( !session_current )
 		return;
 	s = session_current;
-	/*
-	qt_userlist->clear(); // will prevent from multiple loading on list
-	for ( ul = s->userlist; ul; ul = ul->next ) {
-		userlist_t *u = ul;
-		qt_userlist->addItem( QString( u->nickname ) );
-	}
-	*/
 	QString command = qt_entry->text();
 	command_buffer.append( command ); // add command/ text to command buffer
 	QString temp = get_current_tab_name();

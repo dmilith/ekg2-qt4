@@ -127,7 +127,7 @@
       <property name="font" >
        <font>
         <family>Monospace</family>
-        <pointsize>9</pointsize>
+        <pointsize>10</pointsize>
        </font>
       </property>
       <property name="focusPolicy" >
