@@ -71,11 +71,10 @@ extern "C" {
 		main_obj->current_window_number = QString::number( main_obj->tabs->currentIndex() );
 
 		QList<QTextBrowser *> all_browsers = main_obj->tabs->findChildren<QTextBrowser *>();
-		while ( !all_browsers.empty() ) { // find all text browsers and look for one with specified name
-			//bool shown = false;
+		while ( !all_browsers.empty() ) {	// find all text browsers and look for one with specified name 
+														// ( here window name name => number )
 			if ( ( (QTextBrowser*)all_browsers[ all_browsers.count() - 1 ] )->objectName() == main_obj->current_window_number ) {
-				( ( QTextBrowser*)all_browsers.takeLast() )->append( 
-					QString::fromUtf8( (char*)z ).toUtf8() ); // XXX
+				( ( QTextBrowser*)all_browsers.takeLast() )->append( QString::fromUtf8( (char*)z ).toUtf8() ); // XXX
 					break;
 			} else {
 				main_obj->qt_status_window->append( QString::fromUtf8( (char*)z ).toUtf8() );
@@ -95,10 +94,8 @@ extern "C" {
 	static QUERY( qt_ui_window_kill ) {
 		window_t **w = va_arg(ap, window_t **);
 		// TODO: should kill actual window *w
-		main_obj->qt_debug_window->append("Ui: Killed window."); // <-- this should be done after /window kill ;f but it is not. why?
-	/*	main_obj->tabs->removeTab( main_obj->current_window );
-		main_obj->current_window--;
-		main_obj->tabs->setCurrentIndex( main_obj->current_window ); */
+		// FIXME: this should be done after /window kill ;f but it is not. why?
+		main_obj->qt_debug_window->append("Ui: Killed window."); 
 		return 0;
 	}
 	

@@ -118,6 +118,14 @@ Qt4Plugin::init_actions() {
 
 	//qt command line
 	QObject::connect( qt_entry, SIGNAL( returnPressed() ), this, SLOT( qt_entry_command_exec() ));
+	
+	//qt userlist
+	QObject::connect( qt_userlist, SIGNAL( itemSelectionChanged() ), this, SLOT( qt_userlist_selected() ));
+}
+
+void
+Qt4Plugin::qt_userlist_selected() {
+	qt_debug_window->append( "Ui: Selected user: " + ( qt_userlist->item( qt_userlist->currentRow() ) )->text() );
 }
 
 void

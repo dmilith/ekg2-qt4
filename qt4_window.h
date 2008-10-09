@@ -71,15 +71,17 @@ namespace Ui {
 		void enable_debug_window();
 		void clear_current_window();
 		void qt_entry_command_exec();
+		void qt_userlist_selected();
 		void kill_window();
 		void next_window();
 		void previous_window();
       
     // qt4 action signals
     signals:
-      void clicked();
-		void returnPressed();
-		void currentChanged();
+//      void clicked();
+		void returnPressed(); // for qt-entry
+//		void currentChanged(); // for 
+		void itemSelectionChanged(); // for qt_userlist
   };
 
 } // of namespace
